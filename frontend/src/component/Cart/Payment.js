@@ -8,15 +8,15 @@ import "./Payment.css";
 import { CardNumberElement, CardExpiryElement, CardCvcElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
-
-
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Payment = () => {
 
     const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo")); // getting orderInfo from session storage
 
     const payBtn = useRef(null); 
-
+    const navigate = useNavigate();
     const alert = useAlert();
     const dispatch = useDispatch();
     const elements = useElements();
@@ -26,15 +26,61 @@ const Payment = () => {
     const {error} = useSelector((state)=>state.newOrder); // pulling error from newOrder state in redux store  
 
 
+    const paymentData={
+        amount:Math.round(orderInfo.totalPrice*100), // stripe takes payment in paise so to make ruppee in paise multiply it by 100
 
-    const submitHandler = (e) => {
+
+    }
+
+    const submitHandler =async (e) => {
         e.preventDefault(); // page will not reload
         payBtn.current.disabled = true; // btn should be disable after click
 
         try {
             
+            const config={
+                headers:{
+                    "Content-Type":"application/json",
+                }
+            }
+
+            const {data} = await axios.post("/api/v1/payment/process",paymentData,config); // payment API key in app.js in backend
+
+            const client_secret = data.client_secret;
+
+            if(!stripe || !elements) return;
+
+            const result = await stripe.confirmCardPayment(client_secret,{
+                card:elements.getElement(CardNumberElement),
+                billingAddress:{
+                    name:user.name,
+                    email:user.email,
+                    address:{
+                        line1:shippingInfo.address,
+                        city:shippingInfo.city,
+                        state:shippingInfo.state,
+                        postal_code:shippingInfo.pinCode,
+                        country:shippingInfo.country,
+                    }
+                }
+            });
+
+            if(result.error){ // got and error 
+                payBtn.current.disabled=false;
+                alert.error(error.response.message);
+            }
+            else{ // did not get error while payment
+                if(result.paymentIntent.status === "succeeded"){
+                    // place order here 
+                    navigate("/succeeded");
+                }
+                else{
+                    alert.error("There's some issue while processing payment");
+                }
+            }
         } catch (error) {
-            
+            payBtn.current.disabled=false;
+            alert.error(error.response.data.message); 
         }
 
     }
