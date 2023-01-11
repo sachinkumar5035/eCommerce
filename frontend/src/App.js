@@ -2,7 +2,7 @@ import "./App.css";
 import Header from "./component/layout/Header/Header.js";
 import Footer from "./component/layout/Footer/Footer.js";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import WebFont from "webfontloader";
 import Home from "./component/Home/Home.js";
 import ProductDetails from "./component/Product/ProductDetails.js";
@@ -22,6 +22,8 @@ import ResetPassword from "./component/User/ResetPassword.js";
 import Cart from "./component/Cart/Cart.js";
 import Shipping from "./component/Cart/Shipping.js";
 import ConfirmOrder from "./component/Cart/ConfirmOrder.js";
+import Payment from "./component/Cart/Payment.js";
+import axios from "axios";
 
 
 
@@ -30,15 +32,25 @@ import ConfirmOrder from "./component/Cart/ConfirmOrder.js";
 function App() {
   const { user, isAuthenticated } = useSelector((state) => state.user); // pulling isAuthenticated and user from state(redux)
 
+  const [stripeApiKey,setStripeApiKey] = useState("");
+
+  async function getStripeApiKey(){
+    const data =await axios.get("/api/v1/stripeapikey");
+    setStripeApiKey(data.stripeApiKey);
+  }
+
+
+
+
   useEffect(() => {
     WebFont.load({
       google: {
         families: ["Roboto", "Droid Sans", "Chilanka"],
       },
     });
-    if(!user)
       store.dispatch(loadUser()); // user will always available in state
-  }, [user]);
+      getStripeApiKey();
+  }, []);
 
   return (
     <Router>
@@ -59,6 +71,7 @@ function App() {
         <Route exact path="/cart" element={<Cart/>}/>
         <Route exact path="/login/shipping" element={<ProtectedRoute Component={Shipping} />} />
         <Route exact path="/order/confirm" element={<ProtectedRoute Component={ConfirmOrder} />} />
+        <Route exact path="/process/payment" element={<ProtectedRoute Component={Payment} />} />
         <Route exact path="/login" element={<LoginSignUp />} />
       </Routes>
       <Footer />
