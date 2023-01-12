@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material';
-import React, { Fragment, useRef } from 'react'
+import React, { Fragment, useEffect, useRef } from 'react'
 import { MdCreditCard, MdEvent, MdVpnKey } from 'react-icons/md';
 // import Loader from '../layout/Loader/Loader';
 import MetaData from '../layout/MetaData';
@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { clearErrors, createOrder } from '../../actions/orderAction';
 
 const Payment = () => {
 
@@ -28,9 +29,18 @@ const Payment = () => {
 
     const paymentData={
         amount:Math.round(orderInfo.totalPrice*100), // stripe takes payment in paise so to make ruppee in paise multiply it by 100
-
-
     }
+
+    const order={
+        shippingInfo,
+        orderItems:cartItems,
+        itemsPrice:orderInfo.subTotal,
+        taxPrice:orderInfo.tax,
+        shippingPrice:orderInfo.shippingCharges,
+        totalPrice:orderInfo.totalPrice,
+    }
+
+
 
     const submitHandler =async (e) => {
         e.preventDefault(); // page will not reload
@@ -72,6 +82,13 @@ const Payment = () => {
             else{ // did not get error while payment
                 if(result.paymentIntent.status === "succeeded"){
                     // place order here 
+
+                    order.paymentIntent={
+                        id:result.paymentIntent.id,
+                        status:result.paymentIntent.status,
+                    }
+                    dispatch(createOrder(order));
+
                     navigate("/succeeded");
                 }
                 else{
@@ -84,6 +101,16 @@ const Payment = () => {
         }
 
     }
+
+
+
+
+    useEffect(()=>{
+        if(error){
+            alert.error(error);
+            dispatch(clearErrors());
+        }
+    },[dispatch,error,alert]);
 
 
 
