@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import { useSelector } from 'react-redux'
-import { Navigate } from 'react-router-dom';
+import { Routes,Route,Navigate } from 'react-router-dom';
+
 
 const ProtectedRoute = ({ Component, ...rest }) => {
 
@@ -24,11 +25,11 @@ const ProtectedRoute = ({ Component, ...rest }) => {
         //         </Routes>
         //     )}
         // </Fragment>
+
         <Fragment>
             { !loading && 
-                (isAuthenticated ? <Component /> : <Navigate to="/login" />)
+                (isAuthenticated===true ? <Component /> : <Navigate to="/login" />)
             }
-
         </Fragment>
     )
 }

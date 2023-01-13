@@ -27,7 +27,7 @@ import axios from "axios";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import OrderSuccess from "./component/Cart/OrderSuccess.js";
-
+import MyOrders from "./component/Order/MyOrders.js";
 
 
 function App() {
@@ -38,9 +38,9 @@ function App() {
   async function getStripeApiKey() {
     try {
       const data = await axios.get("/api/v1/stripeapikey");
-      setStripeApiKey(data.stripeApiKey); 
+      setStripeApiKey(data.stripeApiKey);
     } catch (error) {
-      alert.error(error.response.data.message);
+      alert.error(error);
     }
   }
 
@@ -89,8 +89,8 @@ function App() {
           } />)
         }
 
-        <Route exact path="/success" element={<ProtectedRoute Component={OrderSuccess}/>}/>
-
+        <Route exact path="/success" element={<ProtectedRoute Component={OrderSuccess} />} />
+        <Route exact path="/orders" element={<ProtectedRoute Component={MyOrders} />} />
 
       </Routes>
       <Footer />
