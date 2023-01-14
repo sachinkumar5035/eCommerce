@@ -29,7 +29,11 @@ import { loadStripe } from "@stripe/stripe-js";
 import OrderSuccess from "./component/Cart/OrderSuccess.js";
 import MyOrders from "./component/Order/MyOrders.js";
 import OrderDetails from "./component/Order/OrderDetails.js";
-import { Switch } from "@material-ui/core";
+// import { Switch } from "@mui/material";
+import Dashboard from "./component/Admin/Dashboard.js";
+import ProductList from "./component/Admin/ProductList.js";
+
+
 
 function App() {
   const { user, isAuthenticated } = useSelector((state) => state.user); // pulling isAuthenticated and user from state(redux)
@@ -62,8 +66,8 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route exact path="/login" element={<LoginSignUp />} />
-        <Route exact path="/product/:id" element={<ProductDetails />} />
         <Route exact path="/products" element={<Products />} />
+        <Route exact path="/product/:id" element={<ProductDetails />} />
         <Route path="/products/:keyword" element={<Search />} />
         <Route exact path="/search" element={<Search />} />
         {/* <ProtectedRoute exact path="/account" element={<Profile/>}/> */}
@@ -74,7 +78,10 @@ function App() {
         <Route exact path="/password/reset/:token" element={<ResetPassword />} />
         <Route exact path="/cart" element={<Cart />} />
         <Route exact path="/login/shipping" element={<ProtectedRoute Component={Shipping} />} />
-
+        <Route exact path="/order/:id" element={<ProtectedRoute Component={OrderDetails} />} />
+        <Route exact path="/order/confirm" element={<ProtectedRoute Component={ConfirmOrder} />} />
+        <Route exact path="/admin/dashboard" element={<ProtectedRoute Component={Dashboard} />} />
+        <Route exact path="/admin/products" element={<ProtectedRoute Component={ProductList} />} />
         {/* {stripeApiKey && (
           <Elements stripe={loadStripe(stripeApiKey)}>
             <ProtectedRoute exact path="/process/payment" component={Payment} />
@@ -93,10 +100,10 @@ function App() {
         <Route exact path="/success" element={<ProtectedRoute Component={OrderSuccess} />} />
         <Route exact path="/orders" element={<ProtectedRoute Component={MyOrders} />} />
 
-        <Switch>
+        {/* <Switch>
           <Route exact path="/order/:id" element={<ProtectedRoute Component={OrderDetails} />} />
           <Route exact path="/order/confirm" element={<ProtectedRoute Component={ConfirmOrder} />} />
-        </Switch>
+        </Switch> */}
 
       </Routes>
       <Footer />

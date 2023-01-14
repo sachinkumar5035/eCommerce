@@ -7,6 +7,7 @@ import {
   PRODUCT_DETAILS_SUCCESS,
   PRODUCT_DETAILS_FAIL,
   CLEAR_ERRORS,
+  NEW_REVIEW_REQUEST,
 } from "../constants/productConstant";
 
 
@@ -55,6 +56,32 @@ export const getProductDetails = (id) => async (dispatch) => {
     });
   }
 };
+
+
+export const addNewReview = (review) => async (dispatch) => {
+  try {
+    dispatch({ type: NEW_REVIEW_REQUEST });
+    // id is product ID 
+    const config={
+      headers:{"Content-Type":"application/json"}
+    }
+    const { data } = await axios.put(`/api/v1/review`,review,config); // MAKE A API CALL TO FETCH PRODUCT DETAILS
+
+    dispatch({
+      type: PRODUCT_DETAILS_SUCCESS,
+      payload: data.success, // yaha pr data fetch hoga jo product reducer me send kr dege and we need to recieve this data in product reducer 
+    });
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_DETAILS_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+
+
+
 
 
 

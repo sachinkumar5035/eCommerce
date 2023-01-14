@@ -31,7 +31,7 @@ const ConfirmOrder = () => {
       totalPrice
     }
     sessionStorage.setItem("orderInfo", JSON.stringify(data)); // stored in session store
-    navigate("/process/payment"); // redirect to payment 
+    navigate("process/payment"); // redirect to payment 
   }
 
 
