@@ -8,21 +8,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
 import LaunchIcon from "@material-ui/icons/Launch";
 import { clearErrors, myOrders } from "../../actions/orderAction.js";
+// import { useParams } from "react-router-dom";
 
 const MyOrders = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { loading, error, orders } = useSelector((state) => state.myOrder);
   const alert = useAlert();
+  // const params = useParams();
 
   const columns = [
     { field: "id", headerName: "Order Id", minWidht: 400, flex: 1 },
-    { 
-        field: "status",
-        headerName: "Status",
-        minWidht: 150,
-        flex: 0.5,
-        cellClassName: (params)=> params.getValue(params.id,"status") === "Delivered"
+    {
+      field: "status",
+      headerName: "Status",
+      minWidht: 150,
+      flex: 0.5,
+      cellClassName: (params) => params.getValue(params.id, "status") === "Delivered"
         ? "greenColor"
         : "redColor" // classes for make status color green or red (from app.css) 
     },
@@ -46,14 +48,14 @@ const MyOrders = () => {
       type: "number",
       minWidht: 150,
       flex: 0.3,
-      sortable:false,
+      sortable: false,
       renderCell: (params) => {
         return (
-          <Link to={`/order/${params.getValue(params.id, "id")}`}>
-            <LaunchIcon />
-          </Link>
+          <Fragment>
+            <Link to={`/order/${params.getValue(params.id, "id")}`}><LaunchIcon /></Link>
+          </Fragment>
         );
-      },
+      }
     },
   ];
 
@@ -68,6 +70,7 @@ const MyOrders = () => {
         amount: item.totalPrice,
       });
     });
+
 
   useEffect(() => {
     if (error) {
@@ -84,7 +87,7 @@ const MyOrders = () => {
         <Loader />
       ) : (
         <div className="myOrdersPage">
-          <DataGrid
+          {/* <DataGrid
             rows={rows}
             columns={columns}
             // rowsPerPageOptions={[10,15,20]}
@@ -93,6 +96,17 @@ const MyOrders = () => {
             disableSelectionOnClick
             className="myOrdersTable"
             autoHeight
+          /> */}
+
+
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            pageSize={15}
+            disableSelectionOnClick
+            className="myOrdersTable"
+            autoHeight
+            rowsPerPageOptions={[100]}
           />
           <Typography id="myOrdersHeading">{user.name}'s Orders</Typography>
         </div>

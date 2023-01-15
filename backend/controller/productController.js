@@ -60,8 +60,6 @@ exports.getAdminProducts = catchAsyncError(async (req, res, next) => {
 });
 
 
-
-
 // update product API-> http://localhost:4000/api/v1/product/:id
 exports.updateProduct = catchAsyncError(async (req, res, next) => {
     let product = await Product.findById(req.params.id);

@@ -6,8 +6,30 @@ import "./Dashboard.css";
 import {Line,Doughnut} from "react-chartjs-2";
 import Chart from 'chart.js/auto';
 import {CategoryScale} from 'chart.js'; 
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getAdminProducts,
+  // deleteProduct,
+} from "../../actions/productAction";
 
 const Dashboard = () => {
+
+
+  const {products} = useSelector((state)=>state.products);
+  const dispatch = useDispatch();
+
+  let outOfStock = 0;
+  products &&
+    products.forEach((item)=>{
+      if(item.stock===0){
+        outOfStock+=1;
+      }
+    });
+
+
+    useEffect(()=>{
+      dispatch(getAdminProducts());
+  },[dispatch]);
     
     const lineState = {
         labels: ["Initial Amount", "Amount Earned"],
@@ -16,7 +38,7 @@ const Dashboard = () => {
             label: "TOTAL AMOUNT",
             backgroundColor: ["tomato"],
             hoverBackgroundColor: ["rgb(197, 72, 49)"],
-            data: [0, 5000],
+            data: [0,40000],
           },
         ],
       };
@@ -27,7 +49,7 @@ const Dashboard = () => {
           {
             backgroundColor: ["#00A6B4", "#6800B4"],
             hoverBackgroundColor: ["#4B5000", "#35014F"],
-            data: [10, 80],
+            data: [outOfStock,products.length-outOfStock],
           },
         ],
       };
@@ -48,7 +70,7 @@ const Dashboard = () => {
         <div className="dashboardSummeryBox2">
             <Link to="/admin/products">
                 <p>Product</p>
-                <p>50</p>
+                <p>{products && products.length}</p>
             </Link>
             <Link to="/admin/orders">
                 <p>Orders</p>
