@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom';
 import Sidebar from "./Sidebar.js";
 import "./Dashboard.css";
 import {Line,Doughnut} from "react-chartjs-2";
+// eslint-disable-next-line
 import Chart from 'chart.js/auto';
+// eslint-disable-next-line
 import {CategoryScale} from 'chart.js'; 
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -78,7 +80,7 @@ const Dashboard = () => {
             </Link>
             <Link to="/admin/users">
                 <p>Users</p>
-                <p>900</p>
+                <p>80</p>
             </Link>
         </div>
 

@@ -1,5 +1,5 @@
-const exppress = require('express');
-const app = exppress();
+const express = require('express');
+const app = express();
 const errMiddleWare = require('./middleware/error'); // import error middleware
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
@@ -7,7 +7,7 @@ const fileUpload = require("express-fileupload");
 const dotenv = require("dotenv");
 
 
-app.use(exppress.json());
+app.use(express.json());
 app.use(cookieParser()); 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(fileUpload());

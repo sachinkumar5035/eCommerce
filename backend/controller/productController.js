@@ -2,13 +2,41 @@ const Product = require("../models/productModel"); // import productModel
 const ErrorHandler = require("../utils/errorhandler"); // import errorhandler
 const catchAsyncError = require("../middleware/catchAsyncError"); // to try catch block or
 const ApiFeatures = require("../utils/apiFeatures"); // to implement search
-
+const cloudinary = require("cloudinary"); // to upload images 
 
 
 
 // to create a product API-> http://localhost:4000/api/v1/product/new
 exports.createProduct = catchAsyncError(async (req, res, next) => {
+
+    let images=[];
+    if(typeof req.body.images === "string"){ // for one image(from frontend only one URL sent)
+        images.push(req.body.images);
+    }
+    else{
+        images = req.body.images; // fontend image array is equal to images array 
+    }
+
+    const imagesLinks=[];
+
+    for (let index = 0; index < images.length; index++) {
+        // const image = images[index];
+        const result = await cloudinary.v2.uploader.upload(images[index],{
+            folder:"products", // cloudinary me products folder me images upload hogi
+        })
+
+        imagesLinks.push({
+            public_id:result.public_id,
+            url:result.secure_url,
+        })
+
+    }
+
+    req.body.images = imagesLinks; // images will contain cloudinary images link
     req.body.user = req.user.id;
+
+
+
     const product = await Product.create(req.body);
     res.status(201).json({
         success: true,

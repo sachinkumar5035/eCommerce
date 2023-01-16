@@ -10,6 +10,9 @@ import {
   ADMIN_PRODUCT_SUCCESS,
   ADMIN_PRODUCT_FAIL,
   NEW_REVIEW_REQUEST,
+  NEW_PRODUCT__REQUEST,
+  NEW_PRODUCT__SUCCESS,
+  NEW_PRODUCT__FAIL,
   CLEAR_ERRORS
 } from "../constants/productConstant";
 
@@ -41,7 +44,6 @@ export const getProduct = (keyword = "", currentPage = 1, price = [0, 250000],ca
 };
 
 
-
 // get all products for admin
 export const getAdminProducts = () => async (dispatch) => {
 
@@ -60,6 +62,32 @@ export const getAdminProducts = () => async (dispatch) => {
   }
 
 }
+
+
+
+// add a new product (ADMIN ROUTE)
+export const addNewProduct = (productData) => async (dispatch) => {
+  try {
+    dispatch({ type: NEW_PRODUCT__REQUEST });
+    // id is product ID 
+    const config={
+      headers:{"Content-Type":"application/json"}
+    }
+    const { data } = await axios.post(`/api/v1/admin/product/new`,productData,config); // MAKE A API CALL TO FETCH PRODUCT DETAILS
+
+    dispatch({
+      type: NEW_PRODUCT__SUCCESS,
+      payload: data, // in reducer we get data using action.payload.success and action.payload.product
+    });
+  } catch (error) {
+    dispatch({
+      type: NEW_PRODUCT__FAIL,
+      payload: error.response.data.message,
+    });
+  }
+}
+
+
 
 
 // TO GET PRODUCT DETAILS 
@@ -102,8 +130,6 @@ export const addNewReview = (review) => async (dispatch) => {
     });
   }
 };
-
-
 
 
 // clear all errors

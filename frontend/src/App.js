@@ -32,6 +32,7 @@ import OrderDetails from "./component/Order/OrderDetails.js";
 // import { Switch } from "@mui/material";
 import Dashboard from "./component/Admin/Dashboard.js";
 import ProductList from "./component/Admin/ProductList.js";
+import NewProduct from "./component/Admin/NewProduct";
 
 
 
@@ -44,8 +45,8 @@ function App() {
     try {
       const data = await axios.get("/api/v1/stripeapikey");
       setStripeApiKey(data.stripeApiKey);
-    } catch (error) {
-      alert.error(error);
+    } catch(error){
+      
     }
   }
 
@@ -82,6 +83,7 @@ function App() {
         <Route exact path="/order/confirm" element={<ProtectedRoute Component={ConfirmOrder} />} />
         <Route exact path="/admin/dashboard" element={<ProtectedRoute Component={Dashboard} />} />
         <Route exact path="/admin/products" element={<ProtectedRoute Component={ProductList} />} />
+        <Route exact path="/admin/product" element={<ProtectedRoute Component={NewProduct} />} />
         {/* {stripeApiKey && (
           <Elements stripe={loadStripe(stripeApiKey)}>
             <ProtectedRoute exact path="/process/payment" component={Payment} />
