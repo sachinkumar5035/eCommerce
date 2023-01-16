@@ -13,6 +13,9 @@ import {
   NEW_PRODUCT__REQUEST,
   NEW_PRODUCT__SUCCESS,
   NEW_PRODUCT__FAIL,
+  DELETE_PRODUCT_REQUEST,
+  DELETE_PRODUCT_SUCCESS,
+  DELETE_PRODUCT_FAIL,
   CLEAR_ERRORS
 } from "../constants/productConstant";
 
@@ -87,7 +90,24 @@ export const addNewProduct = (productData) => async (dispatch) => {
   }
 }
 
+// delete a product(ADMIN)
+export const deleteProduct = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: DELETE_PRODUCT_REQUEST });
+    // id is product ID 
+    const { data } = await axios.delete(`/api/v1/admin/product/${id}`); // MAKE A API CALL TO FETCH PRODUCT DETAILS
 
+    dispatch({
+      type: DELETE_PRODUCT_SUCCESS,
+      payload: data.success, // in reducer we get data using action.payload.success and action.payload.product
+    });
+  } catch (error) {
+    dispatch({
+      type: DELETE_PRODUCT_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+}
 
 
 // TO GET PRODUCT DETAILS 

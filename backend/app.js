@@ -9,7 +9,7 @@ const dotenv = require("dotenv");
 
 app.use(express.json());
 app.use(cookieParser()); 
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.urlencoded({extended:true,parameterLimit:1000000,limit:"100mb"}));
 app.use(fileUpload());
 
 

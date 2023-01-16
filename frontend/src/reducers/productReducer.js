@@ -16,11 +16,15 @@ import {
   NEW_PRODUCT__SUCCESS,
   NEW_PRODUCT_RESET,
   NEW_PRODUCT__FAIL,
+  DELETE_PRODUCT_REQUEST,
+  DELETE_PRODUCT_SUCCESS,
+  DELETE_PRODUCT_RESET,
+  DELETE_PRODUCT_FAIL,
   CLEAR_ERRORS,
 } from "../constants/productConstant";
 
 
-// to get all products from database
+// to get all products from database (admin route added)
 export const productReducer = (state = { products: [] }, action) => {
   switch (action.type) {
     case ALL_PRODUCT_REQUEST:
@@ -135,7 +139,7 @@ export const newProductReducer = (state = { product: {} }, action) => {
       return {
         loading: false,
         success: action.payload.success,
-        product:action.payload.product,
+        product: action.payload.product,
       };
     case NEW_PRODUCT__FAIL:
       return {
@@ -155,5 +159,41 @@ export const newProductReducer = (state = { product: {} }, action) => {
       };
     default:
       return state;
+  }
+};
+
+//delete a product (ADMIN ROUTE)
+export const deleteProductReducer = (state = { products: [] }, action) => {
+  switch (action.type) {
+    case DELETE_PRODUCT_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case DELETE_PRODUCT_SUCCESS:
+      return {
+        // all these value will be accesible in home.js using destructuring
+        ...state,
+        loading: false,
+        isDeleted:action.payload
+      };
+    case DELETE_PRODUCT_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case DELETE_PRODUCT_RESET:
+      return {
+        ...state,
+        isDeleted: false
+      };
+    case CLEAR_ERRORS:
+      return {
+        ...state, // return the current state
+        error: null,
+      };
+    default:
+      return state; // return current state
   }
 };
