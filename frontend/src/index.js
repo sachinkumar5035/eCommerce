@@ -9,7 +9,7 @@ import  AlertTemplate from "react-alert-template-basic";
 
 // to alert now we can use alert in our app anywhere
 const options={
-  timeout:5000,
+  timeout:8000,
   position:positions.BOTTOM_CENTER,
 transition:transitions.SCALE
 }

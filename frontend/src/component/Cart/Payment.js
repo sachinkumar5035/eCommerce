@@ -11,104 +11,104 @@ import { useAlert } from "react-alert";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { clearErrors, createOrder } from '../../actions/orderAction';
+import { REMOVE_CART_ITEM } from '../../constants/cartConstants';
 
 const Payment = () => {
 
     const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo")); // getting orderInfo from session storage
 
-    const payBtn = useRef(null); 
+    const payBtn = useRef(null);
     const navigate = useNavigate();
     const alert = useAlert();
     const dispatch = useDispatch();
     const elements = useElements();
     const stripe = useStripe();
-    const {shippingInfo,cartItems} = useSelector((state)=>state.cart); // pulling shipping info from cart state in redux store
-    const {user} = useSelector((state)=>state.user); // pulling user from user state in redux store
-    const {error} = useSelector((state)=>state.newOrder); // pulling error from newOrder state in redux store  
+    const { shippingInfo, cartItems } = useSelector((state) => state.cart); // pulling shipping info from cart state in redux store
+    const { user } = useSelector((state) => state.user); // pulling user from user state in redux store
+    const { error } = useSelector((state) => state.newOrder); // pulling error from newOrder state in redux store  
 
 
-    const paymentData={
-        amount:Math.round(orderInfo.totalPrice*100), // stripe takes payment in paise so to make ruppee in paise multiply it by 100
+    const paymentData = {
+        amount: Math.round(orderInfo.totalPrice * 100), // stripe takes payment in paise so to make ruppee in paise multiply it by 100
     }
 
-    const order={
+    const order = {
         shippingInfo,
-        orderItems:cartItems,
-        itemsPrice:orderInfo.subTotal,
-        taxPrice:orderInfo.tax,
-        shippingPrice:orderInfo.shippingCharges,
-        totalPrice:orderInfo.totalPrice,
+        orderItems: cartItems,
+        itemsPrice: orderInfo.subTotal,
+        taxPrice: orderInfo.tax,
+        shippingPrice: orderInfo.shippingCharges,
+        totalPrice: orderInfo.totalPrice,
     }
 
-
-
-    const submitHandler =async (e) => {
+    const submitHandler = async (e) => {
         e.preventDefault(); // page will not reload
         payBtn.current.disabled = true; // btn should be disable after click
-
         try {
-            
-            const config={
-                headers:{
-                    "Content-Type":"application/json",
+
+            const config = {
+                headers: {
+                    "Content-Type": "application/json",
                 }
             }
-
-            const {data} = await axios.post("/api/v1/payment/process",paymentData,config); // payment API key in app.js in backend
+            // in backend only amount is needed to make payment currency and metadata already defined
+            const { data } = await axios.post("/api/v1/payment/process", paymentData, config); // payment API key in app.js in backend
 
             const client_secret = data.client_secret;
-
-            if(!stripe || !elements) return;
-
-            const result = await stripe.confirmCardPayment(client_secret,{
-                card:elements.getElement(CardNumberElement),
-                billingAddress:{
-                    name:user.name,
-                    email:user.email,
-                    address:{
-                        line1:shippingInfo.address,
-                        city:shippingInfo.city,
-                        state:shippingInfo.state,
-                        postal_code:shippingInfo.pinCode,
-                        country:shippingInfo.country,
-                    }
-                }
+            if (!stripe || !elements) return;
+            const result = await stripe.confirmCardPayment(client_secret, {
+                payment_method: {
+                    card: elements.getElement(CardNumberElement),
+                    billing_details: {
+                        name: user.name,
+                        email: user.email,
+                        address: {
+                            line1: shippingInfo.address,
+                            city: shippingInfo.city,
+                            state: shippingInfo.state,
+                            postal_code: shippingInfo.pinCode,
+                            country: shippingInfo.country,
+                        }
+                    },
+                },
             });
-
-            if(result.error){ // got and error 
-                payBtn.current.disabled=false;
-                alert.error(error.response.message);
+            if (result.error) { // got and error 
+                payBtn.current.disabled = false; // enable the payment button
+                alert.error(result.error.message); // show the error
             }
-            else{ // did not get error while payment
-                if(result.paymentIntent.status === "succeeded"){
+            else { // did not get error while payment
+                if (result.paymentIntent.status === "succeeded") {
+
                     // place order here 
-
-                    order.paymentIntent={
-                        id:result.paymentIntent.id,
-                        status:result.paymentIntent.status,
+                    order.paymentInfo = {
+                        id: result.paymentIntent.id,
+                        status: result.paymentIntent.status,
                     }
-                    dispatch(createOrder(order));
+                    dispatch(createOrder(order)); // calling orderaction method to place order 
+                    
+                    // dispatch({type:REMOVE_CART_ITEM,id:cartItems[0].product});
+                    // remove cartItems from cart
 
-                    navigate("/success");
+                    navigate("/success"); // redirect to success page 
                 }
-                else{
+                else {
                     alert.error("There's some issue while processing payment");
                 }
             }
         } catch (error) {
-            payBtn.current.disabled=false;
-            alert.error(error.response.data.message); 
+            payBtn.current.disabled = false;
+            alert.error(error.response.data.message);
+            // alert.error("some error occured");
         }
 
     }
 
-
-    useEffect(()=>{
-        if(error){
+    useEffect(() => {
+        if (error) {
             alert.error(error);
             dispatch(clearErrors());
         }
-    },[dispatch,error,alert]);
+    }, [dispatch, error, alert, navigate,]);
 
 
     return (
