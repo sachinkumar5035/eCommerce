@@ -1,4 +1,4 @@
-.myOrdersPage {
+   .myOrdersPage {
     width: 100vw;
     max-width: 100%;
     padding: 0 7vmax;
@@ -37,7 +37,7 @@
     transition: all 0.5s;
   }
   
-  .myOrdersTable a:hover {
+  .myOrdersTable button:hover {
     color: tomato;
   }
   

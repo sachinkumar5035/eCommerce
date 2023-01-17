@@ -4,7 +4,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { deleteProductReducer, newProductReducer, newReviewReducer, productDetailsReducer, productReducer } from "./reducers/productReducer";
 import { forgotPasswordReducer, profileReducer, userReducer } from "./reducers/userReducer";
 import { cartReducer } from "./reducers/cartReducer";
-import { myOrdersReducer, newOrderReducer, ordersDetailsReducer } from "./reducers/orderReducer";
+import { allOrdersReducer, myOrdersReducer, newOrderReducer, ordersDetailsReducer, updateOrdersReducer } from "./reducers/orderReducer";
 
 
 // we are creating a reducer using combine reducer for all like product and image etc.
@@ -21,6 +21,8 @@ const reducer = combineReducers({
     newReview:newReviewReducer, // to store review
     newProduct:newProductReducer, // to add a new product
     deleteProduct:deleteProductReducer, // delete product 
+    allOrders:allOrdersReducer, // for admin to store all orders
+    order:updateOrdersReducer, // update and delete order reducer 
 });
 
 let initialState = {

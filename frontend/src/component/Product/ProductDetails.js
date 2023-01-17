@@ -19,14 +19,11 @@ const ProductDetails = ({ match }) => {
     const alert = useAlert();
     const dispatch = useDispatch();
     // const keyword = params.keyword;
-
-
+ 
     // fetch data from store
     const {error:reviewError,success} = useSelector((state)=>state.newReview); // pulling success and error from newReview store
 
-    const { product, loading, error } = useSelector(
-        (state) => state.productDetails
-    ); // here name of store and state.nameOfParameter should be matched
+    const { product, loading, error } = useSelector((state) => state.productDetails); // here name of store and state.nameOfParameter should be matched
 
    
     const options = {

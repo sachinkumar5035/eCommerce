@@ -9,25 +9,25 @@ const cloudinary = require("cloudinary"); // to upload images
 // to create a product API-> http://localhost:4000/api/v1/product/new
 exports.createProduct = catchAsyncError(async (req, res, next) => {
 
-    let images=[];
-    if(typeof req.body.images === "string"){ // for one image(from frontend only one URL sent)
+    let images = [];
+    if (typeof req.body.images === "string") { // for one image(from frontend only one URL sent)
         images.push(req.body.images);
     }
-    else{
+    else {
         images = req.body.images; // fontend image array is equal to images array 
     }
 
-    const imagesLinks=[];
+    const imagesLinks = [];
 
     for (let index = 0; index < images.length; index++) {
         // const image = images[index];
-        const result = await cloudinary.v2.uploader.upload(images[index],{
-            folder:"products", // cloudinary me products folder me images upload hogi
+        const result = await cloudinary.v2.uploader.upload(images[index], {
+            folder: "products", // cloudinary me products folder me images upload hogi
         })
 
         imagesLinks.push({
-            public_id:result.public_id,
-            url:result.secure_url,
+            public_id: result.public_id,
+            url: result.secure_url,
         })
 
     }
@@ -90,6 +90,7 @@ exports.getAdminProducts = catchAsyncError(async (req, res, next) => {
 
 // update product API-> http://localhost:4000/api/v1/product/:id
 exports.updateProduct = catchAsyncError(async (req, res, next) => {
+
     let product = await Product.findById(req.params.id);
 
     // here next is a callback function
@@ -97,6 +98,38 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
         //calling constructor of errorhandler passing message and statuscode as arguments
         return next(new ErrorHandler("Product not found", 404));
     }
+
+    let images = [];
+    if (typeof req.body.images === "string") { // for one image(from frontend only one URL sent)
+        images.push(req.body.images);
+    }
+    else {
+        images = req.body.images; // fontend image array is equal to images array 
+    }
+
+    if (images !== undefined) {
+        // deleting images from cloudinary
+        for (let index; index < product.images.length; index++) {
+            await cloudinary.v2.uploader.destroy(product.images[index].public_id);
+        }
+
+        const imagesLinks = [];
+
+        for (let index = 0; index < images.length; index++) {
+            const result = await cloudinary.v2.uploader.upload(images[index], {
+                folder: "products", // cloudinary me products folder me images upload hogi
+            })
+
+            imagesLinks.push({
+                public_id: result.public_id,
+                url: result.secure_url,
+            })
+            req.body.images = imagesLinks;
+        }
+    }
+
+
+
 
     product = await Product.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
@@ -124,9 +157,9 @@ exports.deleteProduct = catchAsyncError(async (req, res, next) => {
     }
 
     // deleting images from cloudinary
-   for(let index;index<product.images.length;index++){
+    for (let index; index < product.images.length; index++) {
         await cloudinary.v2.uploader.destroy(product.images[index].public_id);
-   }
+    }
 
     // removing the product from the DB
     await product.remove();

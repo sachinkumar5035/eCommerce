@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import "./OrderDetails.css";
 import { useAlert } from 'react-alert';
@@ -14,7 +14,7 @@ import { Typography } from '@material-ui/core';
 
 const OrderDetails = () => {
     const params = useParams();
-    const { order, loading, error } = useSelector((state) => state.orderDetails); // pulling order,error and loading from orderDetails stores
+    const {order, loading, error } = useSelector((state) => state.orderDetails); // pulling order,error and loading from orderDetails stores
     // const { user } = useSelector((state) => state.user); // pulling user from user store
     const dispatch = useDispatch();
     const alert = useAlert();
@@ -26,7 +26,7 @@ const OrderDetails = () => {
         else {
             dispatch(getOrderDetails(params.id)); // fetching order details of order with id:id
         }
-    }, [dispatch, error, alert, params.id])
+    }, [dispatch, params.id])
 
     return (
         <Fragment>
@@ -37,7 +37,7 @@ const OrderDetails = () => {
                         <div className="orderDetailsPage">
                             <div className="orderDetailsContainer">
                                 <Typography component="h1">
-                                    Order #{order && order._id}
+                                    {/* Order #{order && order._id} */}
                                 </Typography>
                                 <Typography>Shipping Info</Typography>
                                 <div className="orderDetailsContainerBox">
@@ -59,6 +59,7 @@ const OrderDetails = () => {
                                         </span>
                                     </div>
                                 </div>
+
                                 <Typography>Payment</Typography>
                                 <div className="orderDetailsContainerBox">
                                     <div>
@@ -100,12 +101,12 @@ const OrderDetails = () => {
                             </div>
 
                             <div className="orderDetailsCartItems">
-                                <Typography>Order Items:</Typography>
+                                <Typography>Order Item:</Typography>
                                 <div className="orderDetailsCartItemsContainer">
                                     {order.orderItems &&
                                         order.orderItems.map((item) => (
                                             <div key={item.product}>
-                                                <img src={item.image} alt="Product" />
+                                                <img src={item.image} alt="Product image" />
                                                 <Link to={`/product/${item.product}`}>
                                                     {item.name}
                                                 </Link>{" "}
@@ -117,6 +118,7 @@ const OrderDetails = () => {
                                         ))}
                                 </div>
                             </div>
+                            
                         </div>
                     </Fragment>
                 )

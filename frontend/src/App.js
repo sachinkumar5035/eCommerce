@@ -2,7 +2,7 @@ import "./App.css";
 import Header from "./component/layout/Header/Header.js";
 import Footer from "./component/layout/Footer/Footer.js";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import WebFont from "webfontloader";
 import Home from "./component/Home/Home.js";
 import ProductDetails from "./component/Product/ProductDetails.js";
@@ -29,11 +29,12 @@ import { loadStripe } from "@stripe/stripe-js";
 import OrderSuccess from "./component/Cart/OrderSuccess.js";
 import MyOrders from "./component/Order/MyOrders.js";
 import OrderDetails from "./component/Order/OrderDetails.js";
-// import { Switch } from "@mui/material";
 import Dashboard from "./component/Admin/Dashboard.js";
 import ProductList from "./component/Admin/ProductList.js";
 import NewProduct from "./component/Admin/NewProduct";
-
+import UpdateProduct from "./component/Admin/UpdateProduct.js";
+import OrderList from "./component/Admin/OrderList.js";
+import ProcessOrder from "./component/Admin/ProcessOrder.js";
 
 
 function App() {
@@ -79,11 +80,17 @@ function App() {
         <Route exact path="/password/reset/:token" element={<ResetPassword />} />
         <Route exact path="/cart" element={<Cart />} />
         <Route exact path="/login/shipping" element={<ProtectedRoute Component={Shipping} />} />
-        <Route exact path="/order/:id" element={<ProtectedRoute Component={OrderDetails} />} />
         <Route exact path="/order/confirm" element={<ProtectedRoute Component={ConfirmOrder} />} />
+        <Route exact path="/order/:id" element={<ProtectedRoute Component={OrderDetails} />} />
+        
+
+        {/* admin routes */}
         <Route exact path="/admin/dashboard" element={<ProtectedRoute Component={Dashboard} />} />
         <Route exact path="/admin/products" element={<ProtectedRoute Component={ProductList} />} />
         <Route exact path="/admin/product" element={<ProtectedRoute Component={NewProduct} />} />
+        <Route exact path="/admin/product/:id" element={<ProtectedRoute Component={UpdateProduct} />} />
+        <Route exact path="/admin/orders" element={<ProtectedRoute Component={OrderList} />} />
+        <Route exact path="/admin/order/:id" element={<ProtectedRoute Component={ProcessOrder} />} />
         {/* {stripeApiKey && (
           <Elements stripe={loadStripe(stripeApiKey)}>
             <ProtectedRoute exact path="/process/payment" component={Payment} />
@@ -98,14 +105,8 @@ function App() {
           } />)
         }
         {/* for testing purpose  */}
-        {/* <Route exact path="/orders" element={<MyOrders/>}/>  */}
         <Route exact path="/success" element={<ProtectedRoute Component={OrderSuccess} />} />
         <Route exact path="/orders" element={<ProtectedRoute Component={MyOrders} />} />
-
-        {/* <Switch>
-          <Route exact path="/order/:id" element={<ProtectedRoute Component={OrderDetails} />} />
-          <Route exact path="/order/confirm" element={<ProtectedRoute Component={ConfirmOrder} />} />
-        </Switch> */}
 
       </Routes>
       <Footer />
