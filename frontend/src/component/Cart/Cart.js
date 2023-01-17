@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./Cart.css";
 import CartItemCard from "./CartItemCard.js";
@@ -22,8 +22,9 @@ const Cart = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { cartItems } = useSelector((state) => state.cart); // pulling cartItems from cart in redux store
-
+    const alert = useAlert();
+    const { cartItems,error } = useSelector((state) => state.cart); // pulling cartItems from cart in redux store
+    const {isAuthenticated} = useSelector((state)=>state.user);
     const increaseQuantity = (id, quantity, stock) => {
         const qty = quantity + 1;
         if (qty >= stock) {
@@ -49,9 +50,22 @@ const Cart = () => {
 
     const checkOutHandler = ()=>{
         // aler.error("check out handler")
-        navigate(`/login?redirect=shipping`); // now it will check if user is logged in then it send to shipping URL otherwise send to
+        // history.push('/login?redirect=shipping');
+        if(isAuthenticated){
+            navigate(`/shipping`); 
+        }
+        else{
+            navigate('/login');
+        }
     }
 
+
+    useEffect(()=>{
+        if(error){
+            alert.error(error);
+        }
+        // dispatch(checkOutHandler());
+    },[navigate]);
 
 
 

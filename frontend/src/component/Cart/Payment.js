@@ -89,7 +89,7 @@ const Payment = () => {
                     }
                     dispatch(createOrder(order));
 
-                    navigate("/succeeded");
+                    navigate("/success");
                 }
                 else{
                     alert.error("There's some issue while processing payment");
@@ -103,16 +103,12 @@ const Payment = () => {
     }
 
 
-
-
     useEffect(()=>{
         if(error){
             alert.error(error);
             dispatch(clearErrors());
         }
     },[dispatch,error,alert]);
-
-
 
 
     return (
@@ -136,7 +132,7 @@ const Payment = () => {
                     </div>
                     <input
                         type="submit"
-                        value={`Pay - ${orderInfo && orderInfo.totalPrice}`}
+                        value={`Pay  ₹${orderInfo && orderInfo.totalPrice}`}
                         ref={payBtn}
                         className="paymentFormBtn"
                     />
