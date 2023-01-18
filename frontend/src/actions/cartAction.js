@@ -21,7 +21,7 @@ export const addItemToCart = (id, quantity) => async (dispatch,getState) => {
         // till now we have added the item in cart if now we reload the page the cart item will remove 
         // so we will store these items in localstorage with the name cartItems 
         localStorage.setItem("cartItems",JSON.stringify(getState().cart.cartItems)); // getState will fetch the items from the state and add them into cartItems in localStorage 
-   
+        
 };
 
 // remove item from cart 

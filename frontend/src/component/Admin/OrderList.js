@@ -35,14 +35,11 @@ const OrderList = () => {
         }
         if(isDeleted){
           alert.success("Order deleted successfully");
-          dispatch({type:DELETE_ORDER_RESET});
           navigate("/admin/orders"); // redirect to admin dashboard
+          dispatch({type:DELETE_ORDER_RESET});
         }
         dispatch(getALlOrders());
     }, [error, dispatch, alert, deleteError, navigate, isDeleted]);
-
-
-
 
 
     const deleteOrderHandler = (id) => {

@@ -24,7 +24,7 @@ import Shipping from "./component/Cart/Shipping.js";
 import ConfirmOrder from "./component/Cart/ConfirmOrder.js";
 import Payment from "./component/Cart/Payment.js";
 import axios from "axios";
-import { Elements, useStripe } from "@stripe/react-stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import OrderSuccess from "./component/Cart/OrderSuccess.js";
 import MyOrders from "./component/Order/MyOrders.js";
@@ -84,7 +84,8 @@ function App() {
         <Route exact path="/shipping" element={<ProtectedRoute Component={Shipping} />} />
         <Route exact path="/order/confirm" element={<ProtectedRoute Component={ConfirmOrder} />} />
         <Route exact path="/order/:id" element={<ProtectedRoute Component={OrderDetails} />} />
-        
+        <Route exact path="/success" element={<ProtectedRoute Component={OrderSuccess} />} />
+        <Route exact path="/orders" element={<ProtectedRoute Component={MyOrders} />} />
 
         {/* admin routes */}
         <Route exact path="/admin/dashboard" element={<ProtectedRoute Component={Dashboard} />} />
@@ -94,15 +95,6 @@ function App() {
         <Route exact path="/admin/orders" element={<ProtectedRoute Component={OrderList} />} />
         <Route exact path="/admin/order/:id" element={<ProtectedRoute Component={ProcessOrder} />} />
 
-
-      {/* <Route exact path="/process/payment"  element={<ProtectedRoute Component={Payment}/>} /> */}
-
-        {/* {stripeApiKey && (
-          <Elements stripe={loadStripe(stripeApiKey)}>
-            <ProtectedRoute exact path="/process/payment" component={Payment} />
-          </Elements>
-        )} */}
-
         {
           stripeApiKey && <Route exact path="/process/payment" element={
             <Elements stripe={loadStripe(stripeApiKey)} >
@@ -111,9 +103,9 @@ function App() {
           } />
         }
 
+        <Route exact path="/admin/users" element={<ProtectedRoute Component={ProcessOrder} />} />
 
-        <Route exact path="/success" element={<ProtectedRoute Component={OrderSuccess} />} />
-        <Route exact path="/orders" element={<ProtectedRoute Component={MyOrders} />} />
+        
 
       </Routes>
       <Footer />

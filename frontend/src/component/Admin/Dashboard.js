@@ -13,11 +13,13 @@ import {
   getAdminProducts,
   // deleteProduct,
 } from "../../actions/productAction";
+import { getALlOrders } from '../../actions/orderAction.js';
 
 const Dashboard = () => {
 
 
   const {products} = useSelector((state)=>state.products);
+  const {orders} = useSelector((state)=>state.allOrders);
   const dispatch = useDispatch();
 
   let outOfStock = 0;
@@ -31,6 +33,7 @@ const Dashboard = () => {
 
     useEffect(()=>{
       dispatch(getAdminProducts());
+      dispatch(getALlOrders());
   },[dispatch]);
     
     const lineState = {
@@ -56,8 +59,6 @@ const Dashboard = () => {
         ],
       };
 
-      useEffect(()=>{
-      },[])
 
   return (
     <div className='dashboard'>
@@ -76,7 +77,7 @@ const Dashboard = () => {
             </Link>
             <Link to="/admin/orders">
                 <p>Orders</p>
-                <p>4</p>
+                <p>{orders && orders.length}</p>
             </Link>
             <Link to="/admin/users">
                 <p>Users</p>

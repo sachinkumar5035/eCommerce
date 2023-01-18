@@ -43,14 +43,11 @@ const ProductList = () => {
     }
     if(isDeleted){
       alert.success("Product deleted successfully");
-      dispatch({type:DELETE_PRODUCT_RESET});
       navigate("/admin/dashboard"); // redirect to admin dashboard
+      dispatch({type:DELETE_PRODUCT_RESET});
     }
     dispatch(getAdminProducts());
   }, [error, dispatch, alert,deleteError,navigate,isDeleted]);
-
-
-
 
 
   const deleteProductHandler = (id) => {
