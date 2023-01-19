@@ -1,8 +1,8 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
-import { deleteProductReducer, newProductReducer, newReviewReducer, productDetailsReducer, productReducer } from "./reducers/productReducer";
-import { forgotPasswordReducer, profileReducer, userReducer } from "./reducers/userReducer";
+import { deleteProductReducer, newProductReducer, newReviewReducer, productDetailsReducer, productReducer, productReviewsReducer, reviewsReducer } from "./reducers/productReducer";
+import { allUsersReducer, forgotPasswordReducer, profileReducer, userDetailsReducer, userReducer } from "./reducers/userReducer";
 import { cartReducer } from "./reducers/cartReducer";
 import { allOrdersReducer, myOrdersReducer, newOrderReducer, ordersDetailsReducer, updateOrdersReducer } from "./reducers/orderReducer";
 
@@ -11,18 +11,22 @@ import { allOrdersReducer, myOrdersReducer, newOrderReducer, ordersDetailsReduce
 const reducer = combineReducers({
     products:productReducer,
     productDetails:productDetailsReducer, // storeName then reducer_name this store name will be appear in store
-    user:userReducer, // in redux store there is a user will appear
+    user:userReducer, // in redux store there is a user store will appear which hold the data of logged in user
     profile:profileReducer, // to profile in store
     forgotPassword:forgotPasswordReducer, // for forgot password 
     cart: cartReducer, // cart reducer for cart functionality
     newOrder: newOrderReducer, // reducer for order 
     myOrder:myOrdersReducer, // to see my own orders
     orderDetails:ordersDetailsReducer, // to store orderDetails 
-    newReview:newReviewReducer, // to store review
-    newProduct:newProductReducer, // to add a new product
-    deleteProduct:deleteProductReducer, // delete product 
-    allOrders:allOrdersReducer, // for admin to store all orders
-    order:updateOrdersReducer, // update and delete order reducer 
+    newReview:newReviewReducer, // to store review 
+    newProduct:newProductReducer, // to add a new product (admin)
+    deleteProduct:deleteProductReducer, // delete product (admin)
+    allOrders:allOrdersReducer, // for admin to all orders(admin)
+    order:updateOrdersReducer, // update and delete order (admin)
+    allUsers:allUsersReducer, // to get all users (admin)
+    userDetails:userDetailsReducer, // to hold given user details (admin)
+    productReviews:productReviewsReducer, // to hold all reviews of a product (admin)
+    review:reviewsReducer, // to hold the review of the current product (admin)
 });
 
 let initialState = {

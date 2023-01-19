@@ -14,12 +14,14 @@ import {
   // deleteProduct,
 } from "../../actions/productAction";
 import { getALlOrders } from '../../actions/orderAction.js';
+import { getAllUsers } from '../../actions/userAction.js';
 
 const Dashboard = () => {
 
 
   const {products} = useSelector((state)=>state.products);
   const {orders} = useSelector((state)=>state.allOrders);
+  const {users}  = useSelector((state)=>state.allUsers);
   const dispatch = useDispatch();
 
   let outOfStock = 0;
@@ -34,8 +36,17 @@ const Dashboard = () => {
     useEffect(()=>{
       dispatch(getAdminProducts());
       dispatch(getALlOrders());
+      dispatch(getAllUsers());
   },[dispatch]);
     
+  let totalAmount=0;
+  {orders && // orders from allOrders
+    orders.forEach((item)=>{
+      totalAmount+=item.totalPrice;
+    })
+  }
+
+
     const lineState = {
         labels: ["Initial Amount", "Amount Earned"],
         datasets: [
@@ -43,7 +54,7 @@ const Dashboard = () => {
             label: "TOTAL AMOUNT",
             backgroundColor: ["tomato"],
             hoverBackgroundColor: ["rgb(197, 72, 49)"],
-            data: [0,40000],
+            data: [0,totalAmount],
           },
         ],
       };
@@ -67,7 +78,7 @@ const Dashboard = () => {
         <Typography component="h1">Dashboard</Typography>
         <div className="dashboardSummery">
             <div>
-            <p>Total amount<br/> 2000</p>
+            <p>Total amount<br/> ₹{totalAmount}</p>
             </div>
         </div>
         <div className="dashboardSummeryBox2">
@@ -81,11 +92,9 @@ const Dashboard = () => {
             </Link>
             <Link to="/admin/users">
                 <p>Users</p>
-                <p>80</p>
+                <p>{users && users.length}</p>
             </Link>
         </div>
-
-
         <div className="lineChart">
             <Line
                 data={lineState}

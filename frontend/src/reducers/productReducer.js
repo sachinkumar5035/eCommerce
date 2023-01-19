@@ -24,6 +24,13 @@ import {
   UPDATE_PRODUCT_SUCCESS,
   UPDATE_PRODUCT_RESET,
   UPDATE_PRODUCT_FAIL,
+  ALL_REVIEW_REQUEST,
+  ALL_REVIEW_SUCCESS,
+  ALL_REVIEW_FAIL,
+  DELETE_REVIEW_REQUEST,
+  DELETE_REVIEW_SUCCESS,
+  DELETE_REVIEW_RESET,
+  DELETE_REVIEW_FAIL,
   CLEAR_ERRORS,
 } from "../constants/productConstant";
 
@@ -130,6 +137,71 @@ export const newReviewReducer = (state = {}, action) => {
       return state;
   }
 };
+
+// get all review 
+export const productReviewsReducer = (state = { reviews: [] }, action) => {
+  switch (action.type) {
+    case ALL_REVIEW_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case ALL_REVIEW_SUCCESS:
+      return {
+        // all these value will be accesible in home.js using destructuring
+        loading: false,
+        reviews: action.payload, // get the product reviews from productAction 
+      };
+    case ALL_REVIEW_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case CLEAR_ERRORS:
+      return {
+        ...state, // return the current state
+        error: null,
+      };
+    default:
+      return state; // return current state
+  }
+};
+
+// delete a review 
+export const reviewsReducer = (state = {}, action) => {
+  switch (action.type) {
+    case DELETE_REVIEW_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case DELETE_REVIEW_SUCCESS:
+      return {
+        loading: false,
+        isDeleted: action.payload,
+      };
+    case DELETE_REVIEW_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case DELETE_REVIEW_RESET:
+      return {
+        ...state,
+        isDeleted: false,
+      };
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
 
 // add a product (ADMIN ROUTE)
 export const newProductReducer = (state = { product: {} }, action) => {

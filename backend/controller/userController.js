@@ -262,7 +262,6 @@ exports.getAllUser = catchAsyncError(async (req, res, next) => {
 
 
 // get single user (admin)
-
 exports.getSingleUserDetails = catchAsyncError(async (req, res, next) => {
 
     const user = await User.findById(req.params.id);
@@ -310,12 +309,12 @@ exports.updateUserRole = catchAsyncError(async (req, res, next) => {
 exports.deleteUser = catchAsyncError(async (req, res, next) => {
 
     const user = await User.findById(req.params.id);
-
-    // we will remove cloudenary
-
     if (!user) {
         return next(new ErrorHandler(`No such user found with id: ${req.params.id} `));
     }
+    //removing cloudenary
+    const imageId = user.avatar.public_id;
+    await cloudinary.v2.uploader.destroy(imageId);
 
     await user.remove();
 

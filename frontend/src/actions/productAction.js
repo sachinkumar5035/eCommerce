@@ -22,6 +22,13 @@ import {
   UPDATE_PRODUCT_FAIL,
   CLEAR_ERRORS,
   NEW_REVIEW_SUCCESS,
+  ALL_REVIEW_REQUEST,
+  ALL_REVIEW_SUCCESS,
+  ALL_REVIEW_FAIL,
+  DELETE_REVIEW_REQUEST,
+  DELETE_REVIEW_SUCCESS,
+  DELETE_REVIEW_RESET,
+  DELETE_REVIEW_FAIL,
   NEW_REVIEW_FAIL
 } from "../constants/productConstant";
 
@@ -158,6 +165,7 @@ export const getProductDetails = (id) => async (dispatch) => {
 };
 
 
+// add a new review 
 export const addNewReview = (review) => async (dispatch) => {
   try {
     dispatch({ type: NEW_REVIEW_REQUEST });
@@ -174,6 +182,44 @@ export const addNewReview = (review) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: NEW_REVIEW_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+// get all reviews of a product (admin)
+export const getAllReviews = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: ALL_REVIEW_REQUEST });
+   
+    const { data } = await axios.get(`/api/v1/reviews?id=${id}`); // MAKE A API CALL TO FETCH PRODUCT DETAILS
+
+    dispatch({
+      type: ALL_REVIEW_SUCCESS,
+      payload: data.reviews, // we will be recieing the data from backend as reviews and will send it to the reducer 
+    });
+  } catch (error) {
+    dispatch({
+      type: ALL_REVIEW_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+//to delete a review of a product 
+export const deleteReview = (reviewId,productId) => async (dispatch) => {
+  try {
+    dispatch({ type: DELETE_REVIEW_REQUEST });
+    
+    const { data } = await axios.delete(`/api/v1/reviews?id=${reviewId}&productId=${productId}`); // MAKE A API CALL TO FETCH PRODUCT DETAILS
+
+    dispatch({
+      type: DELETE_REVIEW_SUCCESS,
+      payload: data.success, // we will be recieing the data from backend as reviews and will send it to the reducer 
+    });
+  } catch (error) {
+    dispatch({
+      type: DELETE_REVIEW_FAIL,
       payload: error.response.data.message,
     });
   }

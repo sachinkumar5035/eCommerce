@@ -36,6 +36,12 @@ import UpdateProduct from "./component/Admin/UpdateProduct.js";
 import OrderList from "./component/Admin/OrderList.js";
 import ProcessOrder from "./component/Admin/ProcessOrder.js";
 import { useAlert } from "react-alert";
+import UsersList from "./component/Admin/UsersList.js";
+import UpdateUser from "./component/Admin/UpdateUser.js";
+import ProductReviews from "./component/Admin/ProductReviews.js";
+import About from "./component/layout/About/About";
+import Contact from "./component/layout/Contact/Contact";
+
 
 
 function App() {
@@ -74,6 +80,7 @@ function App() {
         <Route exact path="/product/:id" element={<ProductDetails />} />
         <Route path="/products/:keyword" element={<Search />} />
         <Route exact path="/search" element={<Search />} />
+        <Route exact path="/about" element={<About/>}/>
         {/* <ProtectedRoute exact path="/account" element={<Profile/>}/> */}
         <Route exact path="/account" element={<ProtectedRoute Component={Profile} />} />
         <Route exact path="/me/update" element={<ProtectedRoute Component={UpdateProfile} />} />
@@ -103,8 +110,9 @@ function App() {
           } />
         }
 
-        <Route exact path="/admin/users" element={<ProtectedRoute Component={ProcessOrder} />} />
-
+        <Route exact path="/admin/users" element={<ProtectedRoute Component={UsersList} />} />
+        <Route exact path="/admin/user/:id" element={<ProtectedRoute Component={UpdateUser} />} />
+        <Route exact path="/admin/reviews" element={<ProtectedRoute Component={ProductReviews} />} />
         
 
       </Routes>
