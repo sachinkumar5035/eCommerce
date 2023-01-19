@@ -42,8 +42,6 @@ import ProductReviews from "./component/Admin/ProductReviews.js";
 import About from "./component/layout/About/About";
 import Contact from "./component/layout/Contact/Contact";
 
-
-
 function App() {
   const { user, isAuthenticated } = useSelector((state) => state.user); // pulling isAuthenticated and user from state(redux)
 
@@ -81,6 +79,7 @@ function App() {
         <Route path="/products/:keyword" element={<Search />} />
         <Route exact path="/search" element={<Search />} />
         <Route exact path="/about" element={<About/>}/>
+        <Route exact path="/contact" element={<Contact/>}/>
         {/* <ProtectedRoute exact path="/account" element={<Profile/>}/> */}
         <Route exact path="/account" element={<ProtectedRoute Component={Profile} />} />
         <Route exact path="/me/update" element={<ProtectedRoute Component={UpdateProfile} />} />
