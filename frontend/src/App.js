@@ -76,7 +76,7 @@ function App() {
         <Route exact path="/login" element={<LoginSignUp />} />
         <Route exact path="/products" element={<Products />} />
         <Route exact path="/product/:id" element={<ProductDetails />} />
-        <Route path="/products/:keyword" element={<Search />} />
+        <Route path="/products/:keyword" element={<Products />} />
         <Route exact path="/search" element={<Search />} />
         <Route exact path="/about" element={<About/>}/>
         <Route exact path="/contact" element={<Contact/>}/>
@@ -112,7 +112,6 @@ function App() {
         <Route exact path="/admin/users" element={<ProtectedRoute Component={UsersList} />} />
         <Route exact path="/admin/user/:id" element={<ProtectedRoute Component={UpdateUser} />} />
         <Route exact path="/admin/reviews" element={<ProtectedRoute Component={ProductReviews} />} />
-        
 
       </Routes>
       <Footer />

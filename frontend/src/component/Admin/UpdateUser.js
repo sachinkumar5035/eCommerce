@@ -23,7 +23,6 @@ const UpdateUser = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [role, setRole] = useState("");
-
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -48,7 +47,6 @@ const UpdateUser = () => {
             navigate("/admin/users"); // redirect to users
             dispatch({ type: UPDATE_USER_RESET });
         }
-
     }, [dispatch, error, alert, navigate, isUpdated, updateError]);
 
 

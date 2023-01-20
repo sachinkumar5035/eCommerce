@@ -1,7 +1,6 @@
 import React from "react";
 import "./About.css";
 import { Button, Typography, Avatar } from "@material-ui/core";
-import YouTubeIcon from "@material-ui/icons/YouTube";
 import InstagramIcon from "@material-ui/icons/Instagram";
 import { FaLinkedin } from "react-icons/fa";
 const About = () => {

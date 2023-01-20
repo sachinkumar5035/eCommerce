@@ -19,7 +19,7 @@ const UsersList = () => {
 
   const dispatch = useDispatch();
   const alert = useAlert();
-  const params = useParams();
+  // const params = useParams();
   const navigate = useNavigate();
   const { error, users,loading } = useSelector((state) => state.allUsers);
   const {error:deleteError,isDeleted,message} = useSelector((state)=>state.profile);
@@ -85,7 +85,7 @@ const UsersList = () => {
       renderCell: (params) => {
         return (
           <Fragment>
-            <Link to={`/admin/user/${params.getValue(params.id, "id")}`}>
+            <Link to={`/admin/user/${params.getValue(params.id, "id")}`}> {/* update user page */}
               <EditIcon />
             </Link>
 

@@ -14,60 +14,51 @@ import RateReviewIcon from "@material-ui/icons/RateReview";
 
 const Sidebar = () =>{
   return (
-    <div className="sidebar">
-      <Link to="/">
-        <img src={logo} alt="Ecommerce" />
-      </Link>
-      <Link to="/admin/dashboard">
-        <p>
-          <DashboardIcon /> Dashboard
-        </p>
-      </Link>
-      <Link>
-        <TreeView
-          defaultCollapseIcon={<MdExpandMoreIcon />}
-          defaultExpandIcon={<ImportExportIcon />}
-        >
-          <TreeItem nodeId="1" label="Products">
-            <Link to="/admin/products">
-              <TreeItem nodeId="2" label="All" icon={<PostAddIcon />} />
-            </Link>
+      <div className="sidebar">
+        <Link to="/">
+          <img src={logo} alt="Ecommerce" />
+        </Link>
+        <Link to="/admin/dashboard">
+          <p>
+            <DashboardIcon /> Dashboard
+          </p>
+        </Link>
+        <Link>
+          <TreeView
+            defaultCollapseIcon={<MdExpandMoreIcon />}
+            defaultExpandIcon={<ImportExportIcon />}
+          >
+            <TreeItem nodeId="1" label="Products">
+              <Link to="/admin/products">
+                <TreeItem nodeId="2" label="All" icon={<PostAddIcon />} />
+              </Link>
+  
+              <Link to="/admin/product">
+                <TreeItem nodeId="3" label="Create" icon={<AddIcon />} />
+              </Link>
+            </TreeItem>
+          </TreeView>
+        </Link>
+        <Link to="/admin/orders">
+          <p>
+            <ListAltIcon />
+            Orders
+          </p>
+        </Link>
+        <Link to="/admin/users">
+          <p>
+            <PeopleIcon /> Users
+          </p>
+        </Link>
+        <Link to="/admin/reviews">
+          <p>
+            <RateReviewIcon />
+            Reviews
+          </p>
+        </Link>
+      </div>
 
-            <Link to="/admin/product">
-              <TreeItem nodeId="3" label="Create" icon={<AddIcon />} />
-            </Link>
-          </TreeItem>
-        </TreeView>
-      </Link>
-      <Link to="/admin/orders">
-        <p>
-          <ListAltIcon />
-          Orders
-        </p>
-      </Link>
-      <Link to="/admin/users">
-        <p>
-          <PeopleIcon /> Users
-        </p>
-      </Link>
-      <Link to="/admin/reviews">
-        <p>
-          <RateReviewIcon />
-          Reviews
-        </p>
-      </Link>
-    </div>
   );
 };
 
 export default Sidebar;
-
-
-
-
-
-// "@emotion/react": "^11.10.5",
-//     "@emotion/styled": "^11.10.5",
-//     "@material-ui/lab": "^4.0.0-alpha.61",
-//     "@mui/material": "^5.11.3",
-//     "@reduxjs/toolkit": "^1.9.1",

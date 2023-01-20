@@ -65,7 +65,7 @@ const Cart = () => {
             alert.error(error);
         }
         // dispatch(checkOutHandler());
-    },[navigate]);
+    },[navigate,error,alert]);
 
 
 

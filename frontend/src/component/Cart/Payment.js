@@ -11,7 +11,7 @@ import { useAlert } from "react-alert";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { clearErrors, createOrder } from '../../actions/orderAction';
-import { REMOVE_CART_ITEM } from '../../constants/cartConstants';
+import { removeItemFromCart } from '../../actions/cartAction';
 
 const Payment = () => {
 
@@ -87,6 +87,11 @@ const Payment = () => {
                     dispatch(createOrder(order)); // calling orderaction method to place order 
                     
                     // dispatch({type:REMOVE_CART_ITEM,id:cartItems[0].product});
+                    
+                        cartItems && cartItems.forEach(element => {
+                            dispatch(removeItemFromCart(element.product)); // remove item from cart
+                        });
+                    
                     // remove cartItems from cart
 
                     navigate("/success"); // redirect to success page 

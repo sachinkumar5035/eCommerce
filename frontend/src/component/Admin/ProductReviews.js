@@ -68,14 +68,14 @@ const ProductReviews = () => {
 
 
     const columns = [
-        { field: "id", headerName: "Review ID", minWidth: 200, flex: 0.5 },
+        { field: "id", headerName: "Review ID", minWidth: 200, flex: 0.8 },
 
         {
             field: "user",
             headerName: "User",
             // type: "number",
-            minWidth: 200,
-            flex: 0.6,
+            minWidth: 180,
+            flex: 0.4,
         },
 
         {
@@ -89,8 +89,7 @@ const ProductReviews = () => {
         {
             field: "rating",
             headerName: "Rating",
-            type: "number",
-            minWidth: 180,
+            minWidth: 130,
             flex: 0.4,
             cellClassName: (params) => {
                 return params.getValue(params.id, "rating") >= 3
@@ -103,7 +102,7 @@ const ProductReviews = () => {
             field: "actions",
             flex: 0.3,
             headerName: "Actions",
-            minWidth: 100,
+            minWidth: 130,
             type: "number",
             sortable: false,
             renderCell: (params) => {
@@ -139,50 +138,54 @@ const ProductReviews = () => {
 
     return (
         <Fragment>
-            <MetaData title="All Reviews --ECOMMERCE" />
-            <div className="dashboard">
-                <Sidebar />
-                <div className="productReviewContainer">
-                    <form
-                        className="productReviewsForm"
-                        onSubmit={productReviewsSubmitHandler}
-                    >
-                        <h1 className='productReviewsFormHeading'>All reviews</h1>
-
-                        <div>
-                            <MdStar />
-                            <input
-                                type="text"
-                                placeholder="Name"
-                                required
-                                value={productId}
-                                onChange={(e) => setProductId(e.target.value)}
-                            />
-                        </div>
-
-                        <Button
-                            id="createProductBtn"
-                            type="submit"
-                            disabled={loading ? true : false || productId === "" ? true : false}
-                        >
-                            Search
-                        </Button>
-                    </form>
-                    
-                    {
-                        reviews && reviews.length > 0 ? (<DataGrid
-                            rows={rows}
-                            columns={columns}
-                            pageSize={15}
-                            disableSelectionOnClick
-                            className="productListTable"
-                            autoHeight
-                            rowsPerPageOptions={[100]}
-                        />):(<h1>No review found</h1>)
-                    }
-                </div>
-            </div>
-        </Fragment>
+        <MetaData title={`ALL REVIEWS - Admin`} />
+  
+        <div className="dashboard">
+          <Sidebar />
+          <div className="productReviewsContainer">
+            <form
+              className="productReviewsForm"
+              onSubmit={productReviewsSubmitHandler}
+            >
+              <h1 className="productReviewsFormHeading">ALL REVIEWS</h1>
+  
+              <div>
+                <MdStar />
+                <input
+                  type="text"
+                  placeholder="Product Id"
+                  required
+                  value={productId}
+                  onChange={(e) => setProductId(e.target.value)}
+                />
+              </div>
+  
+              <Button
+                id="createProductBtn"
+                type="submit"
+                disabled={
+                  loading ? true : false || productId === "" ? true : false
+                }
+              >
+                Search
+              </Button>
+            </form>
+  
+            {reviews && reviews.length > 0 ? (
+              <DataGrid
+                rows={rows}
+                columns={columns}
+                pageSize={10}
+                disableSelectionOnClick
+                className="productListTable"
+                autoHeight
+              />
+            ) : (
+              <h1 className="productReviewsFormHeading">No Reviews Found</h1>
+            )}
+          </div>
+        </div>
+      </Fragment>
     )
 }
 

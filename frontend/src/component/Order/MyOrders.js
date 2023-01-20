@@ -3,7 +3,7 @@ import "./MyOrders.css";
 import Loader from "../layout/Loader/Loader.js";
 import MetaData from "../layout/MetaData";
 import { DataGrid } from "@material-ui/data-grid";
-import { Button, Link, Typography } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
 import LaunchIcon from "@material-ui/icons/Launch";

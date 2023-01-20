@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import "./OrderDetails.css";
 import { useAlert } from 'react-alert';
@@ -26,7 +26,7 @@ const OrderDetails = () => {
         else {
             dispatch(getOrderDetails(params.id)); // fetching order details of order with id:id
         }
-    }, [dispatch, params.id])
+    }, [dispatch, params.id,alert,error])
 
     return (
         <Fragment>
@@ -106,7 +106,7 @@ const OrderDetails = () => {
                                     {order.orderItems &&
                                         order.orderItems.map((item) => (
                                             <div key={item.product}>
-                                                <img src={item.image} alt="Product image" />
+                                                <img src={item.image} alt="Product" />
                                                 <Link to={`/product/${item.product}`}>
                                                     {item.name}
                                                 </Link>{" "}

@@ -18,7 +18,6 @@ import {
   DELETE_PRODUCT_FAIL,
   UPDATE_PRODUCT_REQUEST,
   UPDATE_PRODUCT_SUCCESS,
-  UPDATE_PRODUCT_RESET,
   UPDATE_PRODUCT_FAIL,
   CLEAR_ERRORS,
   NEW_REVIEW_SUCCESS,
@@ -27,7 +26,6 @@ import {
   ALL_REVIEW_FAIL,
   DELETE_REVIEW_REQUEST,
   DELETE_REVIEW_SUCCESS,
-  DELETE_REVIEW_RESET,
   DELETE_REVIEW_FAIL,
   NEW_REVIEW_FAIL
 } from "../constants/productConstant";
@@ -38,10 +36,10 @@ export const getProduct = (keyword = "", currentPage = 1, price = [0, 250000],ca
   try {
     dispatch({ type: ALL_PRODUCT_REQUEST });
 
-    let linkURL = `/api/v1/products?${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}`;
+    let linkURL = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}`;
 
     if(category){
-      linkURL = `/api/v1/products?${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}&ratings[gte]=${ratings}`;
+      linkURL = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}&ratings[gte]=${ratings}`;
     }
 
     //Implementing seach module flow is to get data  search.js->product.js->productAction.js 

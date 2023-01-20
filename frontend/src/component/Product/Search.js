@@ -11,10 +11,8 @@ const Search = () => {
     const searchButtonHandler = (e) => {
         e.preventDefault(); // page will not reload after submit
         if (keyword.trim()) {
-            // history.push(`/products/${keyword}`);
             navigate(`/products/${keyword}`);
         } else {
-            // history.push("./products");
             navigate(`/products`);
         }
     };
