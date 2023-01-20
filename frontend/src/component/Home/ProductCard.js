@@ -9,6 +9,7 @@ const ProductCard = ({ product }) => {
     // size: "large",
     value: product.ratings,
     precision:.5, // fraction of star will be filled in rating
+    readOnly:true
   }
 
   return (

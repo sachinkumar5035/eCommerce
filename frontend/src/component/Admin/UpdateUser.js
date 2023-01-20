@@ -7,7 +7,7 @@ import SideBar from "./Sidebar.js";
 import { Button } from "@material-ui/core";
 import { useNavigate, useParams } from "react-router-dom";
 import { UPDATE_USER_RESET } from "../../constants/userConstants";
-import { getUserDetails, updateUser, clearErrors } from "../../actions/userAction";
+import { getUserDetails, updateUser, clearErrors, getAllUsers } from "../../actions/userAction";
 import { MdMailOutline, MdPerson, MdVerified } from "react-icons/md";
 import Loader from "../layout/Loader/Loader";
 
@@ -47,6 +47,7 @@ const UpdateUser = () => {
             navigate("/admin/users"); // redirect to users
             dispatch({ type: UPDATE_USER_RESET });
         }
+        dispatch(getAllUsers());
     }, [dispatch, error, alert, navigate, isUpdated, updateError]);
 
 

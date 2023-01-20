@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import "./NewProduct.css";
 import { useDispatch, useSelector } from "react-redux";
-import { updateProduct, getProductDetails, clearErrors } from "../../actions/productAction";
+import { updateProduct, getProductDetails, clearErrors, getAdminProducts } from "../../actions/productAction";
 import { useAlert } from "react-alert";
 import MetaData from "../layout/MetaData.js";
 import AccountTreeIcon from "@material-ui/icons/AccountTree";
@@ -71,7 +71,7 @@ const UpdateProduct = () => {
             navigate("/admin/products"); // redirect to dashboard
             dispatch({ type: UPDATE_PRODUCT_RESET });
         }
-
+        dispatch(getAdminProducts());
     }, [dispatch, error, updateError, alert, navigate, isUpdated, product, productId]);
 
 
