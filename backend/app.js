@@ -30,6 +30,11 @@ app.use("/api/v1",userRoute); // user API http://localhost:4000/api/v1/
 app.use("/api/v1",orderRoute); // order api will be called as-> http://localhost:4000/api/v1/
 app.use("/api/v1",payment); // payment route will be called as-> http://localhost:400/api/v1/
 
+
+
+
+app.get("/",(req,res)=>res.send(`<h1>server is working.click<a href="${process.env.FRONTEND_URL}">here</a> to go to frontend</h1>`))
+
 //  middleware for error
 app.use(errMiddleWare);
 
