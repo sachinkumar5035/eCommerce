@@ -23,5 +23,5 @@
     "nodemailer": "^6.8.0",
     "stripe": "^11.6.0",
     "validator": "^13.7.0"
-  }
+  },
 }
