@@ -64,7 +64,7 @@ function App() {
       },
     });
     store.dispatch(loadUser()); // user will always available in state
-    getStripeApiKey();
+    // getStripeApiKey(); // this is giving stripe error
   }, []);
 
   return (

@@ -2,11 +2,11 @@
   "name": "ecommerce",
   "version": "1.0.0",
   "description": "",
-  "main": "backend/server.js",
+  "main": "./server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node backend/server.js",
-    "dev": "nodemon backend/server.js"
+    "start": "node ./server.js",
+    "dev": "export ENVFILE=/config/config.env && nodemon ./server.js"
   },
   "author": "",
   "license": "ISC",
@@ -23,5 +23,5 @@
     "nodemailer": "^6.8.0",
     "stripe": "^11.6.0",
     "validator": "^13.7.0"
-  },
+  }
 }

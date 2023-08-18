@@ -11,11 +11,10 @@ process.on("uncaughtException",err=>{
     console.log(`Error:${err.message}`);
     console.log(`Shutting down the server due to uncaugnt error`);
     process.exit(1);
-
 });
 
 //config 
-dotenv.config({path:"backend/config/config.env"});
+dotenv.config({path:"config/config.env"});
 
 
 // connect to database(mongoDB)
@@ -30,10 +29,10 @@ cloudinary.config({
 })
 
 const server = app.listen(process.env.PORT,()=>{
-    console.log(`server is working on http://localhost:${process.env.PORT}`);
+    console.log(`server is working on http://192.168.0.100:${process.env.PORT}`);
 })
 
-// unhandeled promise rejection
+// unhandled promise rejection
 process.on("unhandledRejection",err=>{
     console.log(`Error:${err.message}`);
     console.log(`Shutting down the server unhandeled promise rejection`);

@@ -3,5 +3,6 @@
     "emmet.includeLanguages": {
         "javascript": "javascriptreact"
     },
-    "emmet.showAbbreviationSuggestions": true
+    "emmet.showAbbreviationSuggestions": true,
+    "liveServer.settings.port": 5501
 }

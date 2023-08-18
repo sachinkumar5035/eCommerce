@@ -24,6 +24,8 @@ const Home = () => {
     (state) => state.products,
   );
 
+    
+
   useEffect(() => {
     if(error){
       alert.error(error);
@@ -46,7 +48,7 @@ const Home = () => {
               <button>Scroll</button>
             </a>
           </div>
-          <h2 className="homeHeading">Freatured products</h2>
+          <h2 className="homeHeading">Featured products</h2>
           <div className="container" id="container">
             {products && products.map((product) => (<ProductCard key={product._id} product={product} />))}
             {/* <Product product={product}/> */}

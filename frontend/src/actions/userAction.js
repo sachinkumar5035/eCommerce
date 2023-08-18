@@ -39,6 +39,7 @@ import {
 } from "../constants/userConstants";
 import axios from "axios";
 
+const baseAPI=new axios.create({baseURL:"http://192.168.0.100:4000"})
 
 // for login purpose
 export const login = (email, password) => async (dispatch) => {
@@ -92,7 +93,7 @@ export const loadUser = () => async (dispatch) => {
         dispatch({ type: LOAD_USER_REQUEST });
 
         // get user profile API 
-        const {data} = await axios.get(`/api/v1/me`); // api for login a user details 
+        const {data} = await baseAPI.get(`/api/v1/me`); // api for login a user details 
 
         dispatch({type:LOAD_USER_SUCCESS,
             payload:data.user
