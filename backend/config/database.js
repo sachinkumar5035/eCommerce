@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-//const mongoURI = "mongodb://localhost:27017/eCommerce" // eCommerce db will be used in this application
+const mongoURI = "mongodb://localhost:27017/eCommerce" // eCommerce db will be used in this application
 
 
 mongoose.set('strictQuery', true);

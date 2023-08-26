@@ -39,14 +39,14 @@ import {
 } from "../constants/userConstants";
 import axios from "axios";
 
-const baseAPI=new axios.create({baseURL:"http://192.168.0.100:4000"})
+// const baseAPI=new axios.create({baseURL:"http://192.168.0.100:4000"})
 
 // for login purpose
 export const login = (email, password) => async (dispatch) => {
     try {
         dispatch({ type: LOGIN_REQUEST });
 
-        const config = { heaeder: { "Content-Type": "application/json" } };
+        const config = { headers: { "Content-Type": "application/json" } };
 
         const {data} = await axios.post(`/api/v1/login`, { email, password }, config); // api for login a user
 
@@ -73,7 +73,7 @@ export const register = (userData)=> async (dispatch)=>{
         const config = { headers : { "Content-Type": "multipart/form-data" } };
 
         const {data} = await axios.post(`/api/v1/register`, userData, config); // api for login a user
-
+        console.log(userData);
         dispatch({type:REGISTER_USER_SUCCESS,
             payload:data.user
         });
@@ -93,7 +93,7 @@ export const loadUser = () => async (dispatch) => {
         dispatch({ type: LOAD_USER_REQUEST });
 
         // get user profile API 
-        const {data} = await baseAPI.get(`/api/v1/me`); // api for login a user details 
+        const {data} = await axios.get(`/api/v1/me`); // api for login a user details 
 
         dispatch({type:LOAD_USER_SUCCESS,
             payload:data.user
@@ -102,7 +102,7 @@ export const loadUser = () => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: LOAD_USER_FAIL,
-            payload: error.response.data.message,
+            payload: error.response.data.message
         });
     }
 };

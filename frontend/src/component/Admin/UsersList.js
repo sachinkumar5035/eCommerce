@@ -39,7 +39,7 @@ const UsersList = () => {
       dispatch({type:DELETE_USER_RESET});
     }
     dispatch(getAllUsers());
-  }, [error, dispatch, alert,deleteError,navigate,isDeleted]);
+  }, [error, dispatch, alert,deleteError,navigate,isDeleted,message]);
 
 
   const deleteUserHandler = (id) => {

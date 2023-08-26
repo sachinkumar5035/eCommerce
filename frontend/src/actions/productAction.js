@@ -29,6 +29,9 @@ import {
   DELETE_REVIEW_FAIL,
   NEW_REVIEW_FAIL
 } from "../constants/productConstant";
+// import axios from "axios";
+// const baseAPI=new axios.create({baseURL:"http://192.168.0.100:4000"})
+
 
 
 // TO FETCH DATA FROM DATABASE AND GIVE IT TO REDUCER currentPage is for pagination bu default it's 1
@@ -42,7 +45,7 @@ export const getProduct = (keyword = "", currentPage = 1, price = [0, 250000],ca
       linkURL = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}&ratings[gte]=${ratings}`;
     }
 
-    //Implementing seach module flow is to get data  search.js->product.js->productAction.js 
+    //Implementing search module flow is to get data  search.js->product.js->productAction.js 
     const { data } = await axios.get(linkURL); // GIVE THE API CALL TO FETCH DATA 
 
     dispatch({
@@ -152,7 +155,7 @@ export const getProductDetails = (id) => async (dispatch) => {
 
     dispatch({
       type: PRODUCT_DETAILS_SUCCESS,
-      payload: data.product, // yaha pr data fetch hoga jo product reducer me send kr dege and we need to recieve this data in product reducer 
+      payload: data.product, // yaha pr data fetch hoga jo product reducer me send kr dege and we need to receive this data in product reducer 
     });
   } catch (error) {
     dispatch({
@@ -175,7 +178,7 @@ export const addNewReview = (review) => async (dispatch) => {
 
     dispatch({
       type: NEW_REVIEW_SUCCESS,
-      payload: data.success, // yaha pr data fetch hoga jo product reducer me send kr dege and we need to recieve this data in product reducer 
+      payload: data.success, // yaha pr data fetch hoga jo product reducer me send kr dege and we need to receive this data in product reducer 
     });
   } catch (error) {
     dispatch({
@@ -194,7 +197,7 @@ export const getAllReviews = (id) => async (dispatch) => {
 
     dispatch({
       type: ALL_REVIEW_SUCCESS,
-      payload: data.reviews, // we will be recieing the data from backend as reviews and will send it to the reducer 
+      payload: data.reviews, // we will be receiving the data from backend as reviews and will send it to the reducer 
     });
   } catch (error) {
     dispatch({
