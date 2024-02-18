@@ -9,7 +9,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import MetaData from "../layout/MetaData";
 import { DataGrid } from "@material-ui/data-grid";
-import {getAllUsers,clearErrors, deleteUser, updateProfile} from "../../actions/userAction";
+import {getAllUsers,clearErrors, deleteUser, updateProfile} from "../../actions/userAction.js";
 import { DELETE_USER_RESET } from '../../constants/userConstants.js';
 
 

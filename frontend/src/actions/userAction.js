@@ -38,7 +38,7 @@ import {
     
 } from "../constants/userConstants";
 import axios from "axios";
-
+import axiosInstance from "../config/baseAPI.js/baseAPI";
 // const baseAPI=new axios.create({baseURL:"http://192.168.0.100:4000"})
 
 // for login purpose
@@ -48,7 +48,7 @@ export const login = (email, password) => async (dispatch) => {
 
         const config = { headers: { "Content-Type": "application/json" } };
 
-        const {data} = await axios.post(`/api/v1/login`, { email, password }, config); // api for login a user
+        const {data} = await axios.post(`http://192.168.0.100:4000/api/v1/login`, { email, password }, config); // api for login a user
 
         dispatch({type:LOGIN_SUCCESS,
             payload:data.user
@@ -72,7 +72,7 @@ export const register = (userData)=> async (dispatch)=>{
 
         const config = { headers : { "Content-Type": "multipart/form-data" } };
 
-        const {data} = await axios.post(`/api/v1/register`, userData, config); // api for login a user
+        const {data} = await axios.post(`http://192.168.0.100:4000/api/v1/register`, userData, config); // api for login a user
         console.log(userData);
         dispatch({type:REGISTER_USER_SUCCESS,
             payload:data.user
@@ -93,7 +93,7 @@ export const loadUser = () => async (dispatch) => {
         dispatch({ type: LOAD_USER_REQUEST });
 
         // get user profile API 
-        const {data} = await axios.get(`/api/v1/me`); // api for login a user details 
+        const {data} = await axios.get(`http://192.168.0.100:4000/api/v1/me`); // api for login a user details 
 
         dispatch({type:LOAD_USER_SUCCESS,
             payload:data.user
@@ -113,7 +113,7 @@ export const logout = () => async (dispatch) => {
     try {
         dispatch({ type: LOAD_USER_REQUEST });
 
-        await axios.get(`/api/v1/logout`); // api for logout a user 
+        await axios.get(`http://192.168.0.100:4000/api/v1/logout`); // api for logout a user 
 
         dispatch({type:LOGOUT_SUCCESS});
 
@@ -125,7 +125,6 @@ export const logout = () => async (dispatch) => {
     }
 };
 
-
 // update user profile
 export const updateProfile = (userData)=> async (dispatch)=>{
 
@@ -134,7 +133,7 @@ export const updateProfile = (userData)=> async (dispatch)=>{
 
         const config = { headers : { "Content-Type": "multipart/form-data" } };
 
-        const {data} = await axios.put(`/api/v1/me/update`, userData, config); // api for update profile check in userRoute.js
+        const {data} = await axios.put(`http://192.168.0.100:4000/api/v1/me/update`, userData, config); // api for update profile check in userRoute.js
 
         dispatch({type:UPDATE_PROFILE_SUCCESS,
             payload:data.success
@@ -157,7 +156,7 @@ export const updatePassword = (password)=> async (dispatch)=>{
 
         const config = { headers : { "Content-Type": "application/json" } };
 
-        const {data} = await axios.put(`/api/v1/password/update`, password, config); // api for update profile check in userRoute.js
+        const {data} = await axios.put(`http://192.168.0.100:4000/api/v1/password/update`, password, config); // api for update profile check in userRoute.js
 
         dispatch({type:UPDATE_PASSWORD_SUCCESS,
             payload:data.success
@@ -180,7 +179,7 @@ export const forgotPassword = (email)=> async (dispatch)=>{
 
         const config = { headers : { "Content-Type": "application/json" } };
 
-        const {data} = await axios.post(`/api/v1/password/forgot`, email, config); // api for forgot password check in userRoute.js
+        const {data} = await axios.post(`http://192.168.0.100:4000/api/v1/password/forgot`, email, config); // api for forgot password check in userRoute.js
 
         dispatch({type:FORGOT_PASSWORD_SUCCESS,
             payload:data.message
@@ -204,7 +203,7 @@ export const resetPassword = (token,passwords)=> async (dispatch)=>{
 
         const config = { headers : { "Content-Type": "application/json" } };
 
-        const {data} = await axios.put(`/api/v1/password/reset/${token}`, passwords, config); // api for reset password check in userRoute.js
+        const {data} = await axios.put(`http://192.168.0.100:4000/api/v1/password/reset/${token}`, passwords, config); // api for reset password check in userRoute.js
 
         dispatch({type:RESET_PASSWORD_SUCCESS,
             payload:data.success // we are sending payload as success from reducer 
@@ -225,7 +224,7 @@ export const getAllUsers = () => async (dispatch) => {
         dispatch({ type: ALL_USERS_REQUEST });
 
         // get all user API 
-        const {data} = await axios.get(`/api/v1/admin/users`); // api to fetch all users 
+        const {data} = await axios.get(`http://192.168.0.100:4000/api/v1/admin/users`); // api to fetch all users 
 
         dispatch({type:ALL_USERS_SUCCESS,
             payload:data.users, // in reducer we are fetching the users
@@ -246,7 +245,7 @@ export const getUserDetails = (id) => async (dispatch) => {
         dispatch({ type: USER_DETAILS_REQUEST });
 
         // get user details API 
-        const {data} = await axios.get(`/api/v1/admin/user/${id}`); // api to fetch user details 
+        const {data} = await axios.get(`http://192.168.0.100:4000/api/v1/admin/user/${id}`); // api to fetch user details 
 
         dispatch({type:USER_DETAILS_SUCCESS,
             payload:data.user, // in reducer we are fetching the user
@@ -269,7 +268,7 @@ export const updateUser = (id,userData)=> async (dispatch)=>{
 
         const config = { headers : { "Content-Type": "application/json" } };
 
-        const {data} = await axios.put(`/api/v1/admin/user/${id}`, userData, config); // api for update profile check in userRoute.js
+        const {data} = await axios.put(`http://192.168.0.100:4000/api/v1/admin/user/${id}`, userData, config); // api for update profile check in userRoute.js
 
         dispatch({type:UPDATE_USER_SUCCESS,
             payload:data.success, // will get it as isUpdated in reducer 
@@ -290,7 +289,7 @@ export const deleteUser = (id)=> async (dispatch)=>{
     try {
         dispatch({type:DELETE_USER_REQUEST});
 
-        const {data} = await axios.delete(`/api/v1/admin/user/${id}`); // api for update profile check in userRoute.js
+        const {data} = await axios.delete(`http://192.168.0.100:4000/api/v1/admin/user/${id}`); // api for update profile check in userRoute.js
 
         dispatch({type:DELETE_USER_SUCCESS,
             payload:data

@@ -151,8 +151,7 @@ exports.deleteProduct = catchAsyncError(async (req, res, next) => {
     const product = await Product.findById(req.params.id);
 
     // product not found
-    if (!product) {
-        //calling constructor of errorhandler passing message and statuscode as arguments
+    if (!product){
         return next(new ErrorHandler("Product not found", 404));
     }
 
@@ -162,7 +161,8 @@ exports.deleteProduct = catchAsyncError(async (req, res, next) => {
     }
 
     // removing the product from the DB
-    await product.remove();
+    // await product.remove();// this might not work to delete a product 
+    await Product.deleteOne({_id:id});
 
     // sending the response
     return res.status(200).json({
@@ -184,8 +184,6 @@ exports.getProductDetails = catchAsyncError(async (req, res, next) => {
         //     success:false,
         //     message:"Product not found"
         // })
-
-        //calling constructor of errorhandler passing message and statuscode as arguments
         return next(new ErrorHandler("Product not found", 404));
     }
 

@@ -39,10 +39,10 @@ export const getProduct = (keyword = "", currentPage = 1, price = [0, 250000],ca
   try {
     dispatch({ type: ALL_PRODUCT_REQUEST });
 
-    let linkURL = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}`;
+    let linkURL = `http://192.168.0.100:4000/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}`;
 
     if(category){
-      linkURL = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}&ratings[gte]=${ratings}`;
+      linkURL = `http://192.168.0.100:4000/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}&ratings[gte]=${ratings}`;
     }
 
     //Implementing search module flow is to get data  search.js->product.js->productAction.js 
@@ -66,7 +66,7 @@ export const getAdminProducts = () => async (dispatch) => {
 
   try {
     dispatch({type:ADMIN_PRODUCT_REQUEST});
-    const {data} = await axios.get("/api/v1/admin/products");
+    const {data} = await axios.get("http://192.168.0.100:4000/api/v1/admin/products");
     dispatch({
       type:ADMIN_PRODUCT_SUCCESS,
       payload:data.products,
@@ -90,7 +90,7 @@ export const addNewProduct = (productData) => async (dispatch) => {
     const config={
       headers:{"Content-Type":"application/json"}
     }
-    const { data } = await axios.post(`/api/v1/admin/product/new`,productData,config); // MAKE A API CALL TO FETCH PRODUCT DETAILS
+    const { data } = await axios.post(`http://192.168.0.100:4000/api/v1/admin/product/new`,productData,config); // MAKE A API CALL TO FETCH PRODUCT DETAILS
 
     dispatch({
       type: NEW_PRODUCT__SUCCESS,
@@ -109,7 +109,7 @@ export const deleteProduct = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_PRODUCT_REQUEST });
     // id is product ID 
-    const { data } = await axios.delete(`/api/v1/admin/product/${id}`); // MAKE A API CALL TO FETCH PRODUCT DETAILS
+    const { data } = await axios.delete(`http://192.168.0.100:4000/api/v1/admin/product/${id}`); // MAKE A API CALL TO FETCH PRODUCT DETAILS
 
     dispatch({
       type: DELETE_PRODUCT_SUCCESS,
@@ -131,7 +131,7 @@ export const updateProduct = (id,productData) => async (dispatch) => {
     const config={
       headers:{"Content-Type":"application/json"}
     }
-    const { data } = await axios.put(`/api/v1/admin/product/${id}`,productData,config); // MAKE A API CALL TO FETCH PRODUCT DETAILS
+    const { data } = await axios.put(`http://192.168.0.100:4000/api/v1/admin/product/${id}`,productData,config); // MAKE A API CALL TO FETCH PRODUCT DETAILS
 
     dispatch({
       type: UPDATE_PRODUCT_SUCCESS,
@@ -151,7 +151,7 @@ export const getProductDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_DETAILS_REQUEST });
     // id is product ID 
-    const { data } = await axios.get(`/api/v1/product/${id}`); // MAKE A API CALL TO FETCH PRODUCT DETAILS
+    const { data } = await axios.get(`http://192.168.0.100:4000/api/v1/product/${id}`); // MAKE A API CALL TO FETCH PRODUCT DETAILS
 
     dispatch({
       type: PRODUCT_DETAILS_SUCCESS,
@@ -174,7 +174,7 @@ export const addNewReview = (review) => async (dispatch) => {
     const config={
       headers:{"Content-Type":"application/json"}
     }
-    const { data } = await axios.put(`/api/v1/review`,review,config); // MAKE A API CALL TO FETCH PRODUCT DETAILS
+    const { data } = await axios.put(`http://192.168.0.100:4000/api/v1/review`,review,config); // MAKE A API CALL TO FETCH PRODUCT DETAILS
 
     dispatch({
       type: NEW_REVIEW_SUCCESS,
@@ -193,7 +193,7 @@ export const getAllReviews = (id) => async (dispatch) => {
   try {
     dispatch({ type: ALL_REVIEW_REQUEST });
    
-    const { data } = await axios.get(`/api/v1/reviews?id=${id}`); // MAKE A API CALL TO FETCH PRODUCT DETAILS
+    const { data } = await axios.get(`http://192.168.0.100:4000/api/v1/reviews?id=${id}`); // MAKE A API CALL TO FETCH PRODUCT DETAILS
 
     dispatch({
       type: ALL_REVIEW_SUCCESS,
@@ -212,7 +212,7 @@ export const deleteReview = (reviewId,productId) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_REVIEW_REQUEST });
     
-    const { data } = await axios.delete(`/api/v1/reviews?id=${reviewId}&productId=${productId}`); // MAKE A API CALL TO FETCH PRODUCT DETAILS
+    const { data } = await axios.delete(`http://192.168.0.100:4000/api/v1/reviews?id=${reviewId}&productId=${productId}`); // MAKE A API CALL TO FETCH PRODUCT DETAILS
 
     dispatch({
       type: DELETE_REVIEW_SUCCESS,

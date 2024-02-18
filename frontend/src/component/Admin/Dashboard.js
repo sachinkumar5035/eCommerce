@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getAdminProducts,
   // deleteProduct,
-} from "../../actions/productAction";
+} from "../../actions/productAction.js";
 import { getALlOrders } from '../../actions/orderAction.js';
 import { getAllUsers } from '../../actions/userAction.js';
 

@@ -12,7 +12,7 @@ import {
     clearErrors,
     getAllReviews,
     deleteReview,
-} from "../../actions/productAction";
+} from "../../actions/productAction.js";
 import { DELETE_REVIEW_RESET } from '../../constants/productConstant.js';
 import { MdStar } from 'react-icons/md';
 

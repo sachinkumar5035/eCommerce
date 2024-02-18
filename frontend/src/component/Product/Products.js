@@ -77,7 +77,7 @@ const Products = ({ match }) => {
                             onChange={priceHandler}
                             // if valueLabelDisplay is "on" then slider price will be always
                             valueLabelDisplay="auto"
-                            // range-alider is price range can be select by sliding
+                            // range-slider is price range can be select by sliding
                             aria-labelledby="range-slider"
                             min={0}
                             max={250000}

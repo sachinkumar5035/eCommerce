@@ -1,10 +1,10 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
-import { deleteProductReducer, newProductReducer, newReviewReducer, productDetailsReducer, productReducer, productReviewsReducer, reviewsReducer } from "./reducers/productReducer";
-import { allUsersReducer, forgotPasswordReducer, profileReducer, userDetailsReducer, userReducer } from "./reducers/userReducer";
+import { deleteProductReducer, newProductReducer, newReviewReducer, productDetailsReducer, productReducer, productReviewsReducer, reviewsReducer } from "./reducers/productReducer.js";
+import { allUsersReducer, forgotPasswordReducer, profileReducer, userDetailsReducer, userReducer } from "./reducers/userReducer.js";
 import { cartReducer } from "./reducers/cartReducer";
-import { allOrdersReducer, myOrdersReducer, newOrderReducer, ordersDetailsReducer, updateOrdersReducer } from "./reducers/orderReducer";
+import { allOrdersReducer, myOrdersReducer, newOrderReducer, ordersDetailsReducer, updateOrdersReducer } from "./reducers/orderReducer.js";
 
 
 // we are creating a reducer using combine reducer for all like product and image etc.

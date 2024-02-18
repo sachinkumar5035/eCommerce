@@ -14,7 +14,7 @@ import {
   deleteProduct,
   getAdminProducts,
   // deleteProduct,
-} from "../../actions/productAction";
+} from "../../actions/productAction.js";
 import { DELETE_PRODUCT_RESET } from '../../constants/productConstant.js';
 
 

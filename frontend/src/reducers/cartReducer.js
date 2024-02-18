@@ -28,7 +28,7 @@ export const cartReducer = (state = { cartItems: [],shippingInfo:{} }, action) =
         case REMOVE_CART_ITEM:
             return {
                 ...state,
-                // i.product is actualy id of product if it is not same which we need to remove, that product will be add to cartItems if id matches than it will be neglacted
+                // i.product is actually id of product if it is not same which we need to remove, that product will be add to cartItems if id matches than it will be neglacted
                 cartItems: state.cartItems.filter((i)=> i.product !== action.payload), //  
             }
             case SAVE_SHIPPING_INFO:
