@@ -91,19 +91,20 @@ export const register = (userData)=> async (dispatch)=>{
 export const loadUser = () => async (dispatch) => {
     try {
         dispatch({ type: LOAD_USER_REQUEST });
-
+        console.log("loaduser req");
         // get user profile API 
         const {data} = await axios.get(`http://192.168.0.100:4000/api/v1/me`); // api for login a user details 
-
+        console.log(data);
         dispatch({type:LOAD_USER_SUCCESS,
             payload:data.user
         });
-
+        console.log("success");
     } catch (error) {
         dispatch({
             type: LOAD_USER_FAIL,
             payload: error.response.data.message
         });
+        console.log(error);
     }
 };
 

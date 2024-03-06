@@ -13,7 +13,7 @@ import Profile from "./component/User/Profile.js";
 import store from "./store";
 import { loadUser } from "./actions/userAction";
 import UserOptions from "./component/layout/Header/UserOptions.js";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ProtectedRoute from "./component/Route/ProtectedRoute";
 import UpdateProfile from "./component/User/UpdateProfile.js";
 import UpdatePassword from "./component/User/UpdatePassword.js";
@@ -44,19 +44,17 @@ import Contact from "./component/layout/Contact/Contact";
 
 function App() {
   const { user, isAuthenticated } = useSelector((state) => state.user); // pulling isAuthenticated and user from state(redux)
-
   const [stripeApiKey, setStripeApiKey] = useState("");
-  const alert  = useAlert();
-  
+  const dispatch = useDispatch();
   async function getStripeApiKey() {
     try {
-      const {data} = await axios.get("/api/v1/stripeapikey"); // data is a object 
+      const {data} = await axios.get("http://localhost:4000/api/v1/stripeapikey"); // data is a object 
+      console.log(data);
       setStripeApiKey(data.stripeApiKey);
     } catch(error){
-      alert.error(error);
     }
   }
-  
+
   useEffect(() => {
     WebFont.load({
       google: {
@@ -64,8 +62,10 @@ function App() {
       },
     });
     store.dispatch(loadUser()); // user will always available in state
+    
     // getStripeApiKey(); // this is giving stripe error
   }, []);
+  // window.addEventListener("contextmenu", (e) => e.preventDefault());
 
   return (
     <Router>

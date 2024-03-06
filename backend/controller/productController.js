@@ -8,34 +8,34 @@ const cloudinary = require("cloudinary"); // to upload images
 
 // to create a product API-> http://localhost:4000/api/v1/product/new
 exports.createProduct = catchAsyncError(async (req, res, next) => {
-
     let images = [];
-    if (typeof req.body.images === "string") { // for one image(from frontend only one URL sent)
-        images.push(req.body.images);
-    }
-    else {
-        images = req.body.images; // fontend image array is equal to images array 
-    }
+    
+    // console.log(req.body);
 
-    const imagesLinks = [];
+    // if (typeof req.body.images === "string") { // for one image(from frontend only one URL sent)
+    //     images.push(req.body.images);
+    // }
+    // else {
+    //     images = req.body.images; // frontend image array is equal to images array 
+    // }
 
-    for (let index = 0; index < images.length; index++) {
-        // const image = images[index];
-        const result = await cloudinary.v2.uploader.upload(images[index], {
-            folder: "products", // cloudinary me products folder me images upload hogi
-        })
+    // const imagesLinks = [];
+    // console.log(images.length);
+    // for (let index = 0; index < images.length; index++) {
+    //     // const image = images[index];
+    //     const result = await cloudinary.v2.uploader.upload(images[index], {
+    //         folder: "products", // cloudinary me products folder me images upload hogi
+    //     })
 
-        imagesLinks.push({
-            public_id: result.public_id,
-            url: result.secure_url,
-        })
+    //     imagesLinks.push({
+    //         public_id: result.public_id,
+    //         url: result.secure_url,
+    //     })
 
-    }
+    // }
 
-    req.body.images = imagesLinks; // images will contain cloudinary images link
+    // req.body.images = imagesLinks; // images will contain cloudinary images link
     req.body.user = req.user.id;
-
-
 
     const product = await Product.create(req.body);
     res.status(201).json({
@@ -60,7 +60,7 @@ exports.getAllProducts = catchAsyncError(async (req, res, next) => {
 
     // let products = await apiFeature.query;
 
-    // let filteredProductsCount = products.length;
+    let filteredProductsCount = products.length;
 
     // apiFeature.pagination(resultPerPage);
 
@@ -71,7 +71,7 @@ exports.getAllProducts = catchAsyncError(async (req, res, next) => {
         products,
         productsCount, // ye name and const{product,loading,error,productsCount} me name same hona chahiye otherwise we will get the error 
         resultPerPage,
-        // filteredProductsCount,
+        filteredProductsCount,
     });
 
 });

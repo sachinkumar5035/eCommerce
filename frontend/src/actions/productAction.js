@@ -44,10 +44,11 @@ export const getProduct = (keyword = "", currentPage = 1, price = [0, 250000],ca
     if(category){
       linkURL = `http://192.168.0.100:4000/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}&ratings[gte]=${ratings}`;
     }
-
+    
     //Implementing search module flow is to get data  search.js->product.js->productAction.js 
     const { data } = await axios.get(linkURL); // GIVE THE API CALL TO FETCH DATA 
-
+    // const {data} = await axios.get('https://fakestoreapi.com/products');
+    console.log(data);
     dispatch({
       type: ALL_PRODUCT_SUCCESS,
       payload: data,
@@ -55,7 +56,7 @@ export const getProduct = (keyword = "", currentPage = 1, price = [0, 250000],ca
   } catch (error) {
     dispatch({
       type: ALL_PRODUCT_FAIL,
-      payload: error.response.data.message,
+      payload: error?.response?.data?.message,
     });
   }
 };

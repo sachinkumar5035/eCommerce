@@ -8,23 +8,13 @@ import Loader from "../layout/Loader/Loader";
 // useSelector and useSelector will need to call getProducts
 import {useAlert} from "react-alert";
 
-
-// const product = {
-//   name:"T-shirt",
-//   images:[{url:"http://image.png"}],
-//   price:"1000",
-//   _id:"1r2ty8980"
-// }
-
 const Home = () => {
   const alert = useAlert();
   const dispatch = useDispatch();
 
   const { loading, error, products } = useSelector(
-    (state) => state.products,
+    (state) => state.products
   );
-
-    
 
   useEffect(() => {
     if(error){

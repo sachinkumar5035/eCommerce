@@ -166,13 +166,14 @@ exports.resetPassword = catchAsyncError(async (req, res, next) => {
 
 // get user details  a user will fetch his or her details 
 exports.getUserDetails = catchAsyncError(async (req, res, next) => {
-
+    console.log('inside getuserDetails');
     const user = await User.findById(req.user.id);
-
+    // console.log(req.user.id);
     res.status(200).json({
         success: true,
         user,
     })
+    // res.send("user",req.user.id);
 });
 
 // update userPassword

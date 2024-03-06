@@ -36,6 +36,8 @@ const Products = ({ match }) => {
     const { loading, error, products, productsCount, resultPerPage } =
         useSelector((state) => state.products); // will return products from getAllProducts from productController
 
+        console.log(products);
+
     // set the current page number
     const setCurrentPageNo = (e) => {
         setCurrentPage(e);
@@ -137,7 +139,8 @@ const Products = ({ match }) => {
                     )}
                     {/* pagination end */}
                 </Fragment>
-            )}
+            )
+            }
         </Fragment>
     );
 };
