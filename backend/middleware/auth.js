@@ -6,8 +6,8 @@ const User = require("../models/userModel");
 
 exports.isAuthenticatedUser = catchAsyncError(async (req, res, next) => {
 
-    const { token } = req.cookies;
-    // console.log("token inside is authentication ",token);
+    const { token } = req.cookies; // fetch token from cookie
+    console.log("inside auth.js",token);
     if (!token) {
         return next(new ErrorHandler("Please login to access this resource", 401)); // unauthorized access
     } 

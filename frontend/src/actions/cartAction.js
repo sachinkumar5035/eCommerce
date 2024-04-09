@@ -5,7 +5,7 @@ import axios from "axios";
 export const addItemToCart = (id, quantity) => async (dispatch,getState) => {
    
     
-        const {data} = await axios.get(`http://192.168.0.100:4000/api/v1/product/${id}`); // api for login a user
+        const {data} = await axios.get(`http://localhost:4000/api/v1/product/${id}`); // api for login a user
 
         dispatch({type:ADD_TO_CART, // these values will be available in store of cart 
             payload:{

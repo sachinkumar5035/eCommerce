@@ -11,10 +11,13 @@ const ProductCard = ({ product }) => {
     precision:.5, // fraction of star will be filled in rating
     readOnly:true
   }
-
   return (
     <Link className='productCard' to={`/product/${product._id}`}>
-      <img src={product.images[0].url} alt={product.name} />
+      <img style={{
+        width:"200px",
+        aspectRatio: 3/2,
+        objectFit:"contain",
+      }} src={product?.images[0]?.url} alt={product.name} />
       <p>{product.name}</p>
       <div>
         <Rating {...options} />

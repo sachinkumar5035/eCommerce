@@ -25,7 +25,6 @@ const ProductDetails = ({ match }) => {
 
     const { product, loading, error } = useSelector((state) => state.productDetails); // here name of store and state.nameOfParameter should be matched
 
-   
     const options = {
         // size: "large",
         value: product.ratings,

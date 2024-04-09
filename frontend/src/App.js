@@ -13,7 +13,7 @@ import Profile from "./component/User/Profile.js";
 import store from "./store";
 import { loadUser } from "./actions/userAction";
 import UserOptions from "./component/layout/Header/UserOptions.js";
-import { useDispatch, useSelector } from "react-redux";
+import {  useDispatch, useSelector } from "react-redux";
 import ProtectedRoute from "./component/Route/ProtectedRoute";
 import UpdateProfile from "./component/User/UpdateProfile.js";
 import UpdatePassword from "./component/User/UpdatePassword.js";
@@ -35,7 +35,7 @@ import NewProduct from "./component/Admin/NewProduct";
 import UpdateProduct from "./component/Admin/UpdateProduct.js";
 import OrderList from "./component/Admin/OrderList.js";
 import ProcessOrder from "./component/Admin/ProcessOrder.js";
-import { useAlert } from "react-alert";
+// import { useAlert } from "react-alert";
 import UsersList from "./component/Admin/UsersList.js";
 import UpdateUser from "./component/Admin/UpdateUser.js";
 import ProductReviews from "./component/Admin/ProductReviews.js";
@@ -48,12 +48,14 @@ function App() {
   const dispatch = useDispatch();
   async function getStripeApiKey() {
     try {
-      const {data} = await axios.get("http://localhost:4000/api/v1/stripeapikey"); // data is a object 
-      console.log(data);
+      const { data } = await axios.get("http://localhost:4000/api/v1/stripeapikey"); // data is a object 
       setStripeApiKey(data.stripeApiKey);
-    } catch(error){
+    } catch (error) {
+      console.log("stripe error",error);
     }
   }
+  
+  console.log("stripeApiKey",stripeApiKey);
 
   useEffect(() => {
     WebFont.load({
@@ -62,15 +64,23 @@ function App() {
       },
     });
     store.dispatch(loadUser()); // user will always available in state
-    
-    // getStripeApiKey(); // this is giving stripe error
-  }, []);
+    getStripeApiKey(); // this is giving stripe error
+  }, [dispatch]);
   // window.addEventListener("contextmenu", (e) => e.preventDefault());
 
   return (
     <Router>
       <Header />
       {isAuthenticated && <UserOptions user={user} />}
+
+      {
+        stripeApiKey && (<Route exact path="/process/payment" element={
+          <Elements stripe={loadStripe(stripeApiKey)} >
+            <ProtectedRoute Component={Payment} />
+          </Elements>
+        } /> )
+      }
+  
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route exact path="/login" element={<LoginSignUp />} />
@@ -100,14 +110,6 @@ function App() {
         <Route exact path="/admin/product/:id" element={<ProtectedRoute Component={UpdateProduct} />} />
         <Route exact path="/admin/orders" element={<ProtectedRoute Component={OrderList} />} />
         <Route exact path="/admin/order/:id" element={<ProtectedRoute Component={ProcessOrder} />} />
-
-        {
-          stripeApiKey && <Route exact path="/process/payment" element={
-            <Elements stripe={loadStripe(stripeApiKey)} >
-              <ProtectedRoute  Component={Payment} />
-            </Elements>
-          } />
-        }
 
         <Route exact path="/admin/users" element={<ProtectedRoute Component={UsersList} />} />
         <Route exact path="/admin/user/:id" element={<ProtectedRoute Component={UpdateUser} />} />

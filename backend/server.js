@@ -9,7 +9,7 @@ const cloudinary = require("cloudinary"); // for user data upload
 //handling uncaugnt error
 process.on("uncaughtException",err=>{
     console.log(`Error:${err.message}`);
-    console.log(`Shutting down the server due to uncaugnt error`);
+    console.log(`Shutting down the server due to uncaught error`);
     process.exit(1);
 });
 
@@ -29,13 +29,13 @@ cloudinary.config({
 })
 
 const server = app.listen(process.env.PORT,()=>{
-    console.log(`server is working on http://192.168.0.100:${process.env.PORT}`);
+    console.log(`server is working on http://localhost:${process.env.PORT}`);
 })
 
 // unhandled promise rejection
 process.on("unhandledRejection",err=>{
     console.log(`Error:${err.message}`);
-    console.log(`Shutting down the server unhandeled promise rejection`);
+    console.log(`Shutting down the server unhandelled promise rejection`);
     server.close(()=>{
         process.exit(1);
     });

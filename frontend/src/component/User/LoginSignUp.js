@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from "@material-ui/icons/Lock";
+import axios from "axios";
+
 
 const LoginSignUp = ({history}) => {
     const loginTab = useRef(null); // can not access dom element in react directly that's is why using useRef
@@ -35,13 +37,13 @@ const LoginSignUp = ({history}) => {
         dispatch(login(loginEmail, loginPassword));
     };
 
-    const registerSubmit = (e) => {
+    const registerSubmit = async (e) => {
         e.preventDefault();
         const myForm = new FormData();
         myForm.set("name", name);
         myForm.set("email", email);
         myForm.set("password", password);
-        myForm.set("avatar", avatar);
+        myForm.append("file", avatar);
         dispatch(register(myForm)); // myform is passing as userdata to userAction.js 
     };
 
@@ -51,7 +53,8 @@ const LoginSignUp = ({history}) => {
             reader.onload = () => {
                 if (reader.readyState === 2) { // reader have 3 states-> 0 for ready, 1 for processing, 2 for done
                     setAvatarPreview(reader.result);
-                    setAvatar(reader.result);
+                    // setAvatar(reader.result);
+                    setAvatar(e.target.files[0]);
                 }
             }
             reader.readAsDataURL(e.target.files[0]);
@@ -113,8 +116,6 @@ const LoginSignUp = ({history}) => {
                         {/* Login form start */}
                         <form ref={loginTab} className="loginForm" onSubmit={loginSubmit}>
                             <div className="loginEmail">
-                                {/* <AiOutlineMail/> */}
-                                {/* <p>Email</p> */}
                                 <EmailIcon className="icon"/>
                                 <input
                                     type="email"
@@ -125,8 +126,6 @@ const LoginSignUp = ({history}) => {
                                 />
                             </div>
                             <div className="loginPassword">
-                                {/* <p>Password</p> */}
-                                {/* <RiLockPasswordLine/> */}
                                 <LockIcon className="icon"/>
                                 <input
                                     type="password"

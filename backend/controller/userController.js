@@ -5,21 +5,16 @@ const sendToken = require("../utils/jwtToken")
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
 const { json } = require("body-parser");
-const { use } = require("../routes/userRoute");
 const cloudinary = require("cloudinary");
 
 
 // register a user using API-> http://localhost:4000/api/v1/register 
 exports.registerUser = catchAsyncError(async (req, res, next) => { // using catchAsync function to handle try and catch block
-
-    const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
-        folder: "avatars",
-        width: 150,
-        crop: "scale",
+    const image = req.files.file; // with name image we are sending the photo to upload
+    const myCloud = await cloudinary.v2.uploader.upload(image.tempFilePath,(err,result)=>{
+        console.log("err",err);
     });
-
     const { name, email, password } = req.body; // destructuring
-
     const user = await User.create({
         name, email, password,
         avatar: {
@@ -29,12 +24,11 @@ exports.registerUser = catchAsyncError(async (req, res, next) => { // using catc
     });
 
     sendToken(user, 201, res); // or can write below code for the same
-    // const token = user.JWTToken();
 
-    // res.status(201).json({
-    //     success:true,
-    //     token
-    // })
+    // res.status(200).json({
+    //     success: true,
+    //     message: "user created successfully"
+    // });
 
 });
 
@@ -45,7 +39,6 @@ exports.registerUser = catchAsyncError(async (req, res, next) => { // using catc
 exports.loginUser = catchAsyncError(async (req, res, next) => {
 
     const { email, password } = req.body;
-
     // check user entered email and password or not
     if (!email || !password) {
         return next(new ErrorHandler("Please enter email and password", 400));
@@ -166,7 +159,6 @@ exports.resetPassword = catchAsyncError(async (req, res, next) => {
 
 // get user details  a user will fetch his or her details 
 exports.getUserDetails = catchAsyncError(async (req, res, next) => {
-    console.log('inside getuserDetails');
     const user = await User.findById(req.user.id);
     // console.log(req.user.id);
     res.status(200).json({
@@ -216,24 +208,18 @@ exports.updateUserProfile = catchAsyncError(async (req, res, next) => {
         name: req.body.name,
         email: req.body.email
     }
-
-    // need to add cloudinary later
-
-    if (req.body.avatar != "") {
-        const user = await User.findById(req.user.id);
-        const imageId = user.avatar.public_id;
+    if (req.files.image != "" && req.files != undefined) { // if we are passing the image(updating the image as well)
+        const user = await User.findById(req.user.id); // find the user
+        const imageId = user.avatar.public_id; // get the image id
         await cloudinary.v2.uploader.destroy(imageId); // old image will destroy 
-        const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
-            folder: "avatars",
-            width: 150,
-            crop: "scale",
+        const myCloud = await cloudinary.v2.uploader.upload(req.files.image.tempFilePath,(err,result)=>{
+            console.log(err);
         });
 
         newUserData.avatar = {
             public_id: myCloud.public_id,
             url: myCloud.secure_url,
         }
-
     }
 
     const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
@@ -244,7 +230,7 @@ exports.updateUserProfile = catchAsyncError(async (req, res, next) => {
 
     res.status(200).json({
         success: true,
-        user,
+        user:user
     })
 
 });
@@ -289,17 +275,15 @@ exports.updateUserRole = catchAsyncError(async (req, res, next) => {
         role: req.body.role,
     }
 
-    // need to add cloudinary later
-
+    // need to add cloudinary later;
     const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
         new: true,
         runValidators: true,
         useFindAndModify: false
     })
-
     res.status(200).json({
         success: true,
-        user,
+        message: 'User role updated successfully'
     })
 
 });
@@ -311,9 +295,9 @@ exports.deleteUser = catchAsyncError(async (req, res, next) => {
 
     const user = await User.findById(req.params.id);
     if (!user) {
-        return next(new ErrorHandler(`No such user found with id: ${req.params.id} `));
+        return next(new ErrorHandler(`No such user found with id: ${req.params.id}`));
     }
-    //removing cloudenary
+    //removing cloudinary
     const imageId = user.avatar.public_id;
     await cloudinary.v2.uploader.destroy(imageId);
 
@@ -321,8 +305,7 @@ exports.deleteUser = catchAsyncError(async (req, res, next) => {
 
     res.status(200).json({
         success: true,
-        user,
-        message: "user deleted successfully"
+        message: `user ${user.email} deleted successfully`
     })
 
 });

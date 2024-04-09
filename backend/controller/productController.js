@@ -9,38 +9,36 @@ const cloudinary = require("cloudinary"); // to upload images
 // to create a product API-> http://localhost:4000/api/v1/product/new
 exports.createProduct = catchAsyncError(async (req, res, next) => {
     let images = [];
-    
-    // console.log(req.body);
+    // console.log(req.files.image);
+    if (req.files.image != "" && req.files.image != undefined) { // for one image(from frontend only one URL sent)
+        for (let i = 0; i < req.files.image.length; i++) {
+            images.push(req.files.image[i]);
+        }
+    }
+    // console.log("images",images);
+    const imagesLinks = [];
+    for (let index = 0; index < images.length; index++) {
+        // const image = images[index];
+        const result = await cloudinary.v2.uploader.upload(images[index].tempFilePath, (err,res)=>{
+            console.log("err",err);
+            // console.log("res",res);
+        })
 
-    // if (typeof req.body.images === "string") { // for one image(from frontend only one URL sent)
-    //     images.push(req.body.images);
-    // }
-    // else {
-    //     images = req.body.images; // frontend image array is equal to images array 
-    // }
+        imagesLinks.push({
+            public_id: result.public_id,
+            url: result.secure_url,
+        })
 
-    // const imagesLinks = [];
-    // console.log(images.length);
-    // for (let index = 0; index < images.length; index++) {
-    //     // const image = images[index];
-    //     const result = await cloudinary.v2.uploader.upload(images[index], {
-    //         folder: "products", // cloudinary me products folder me images upload hogi
-    //     })
-
-    //     imagesLinks.push({
-    //         public_id: result.public_id,
-    //         url: result.secure_url,
-    //     })
-
-    // }
-
-    // req.body.images = imagesLinks; // images will contain cloudinary images link
+    }
+    // console.log("imagesLinks",imagesLinks);
+    req.body.images = imagesLinks; // images will contain cloudinary images link
     req.body.user = req.user.id;
 
     const product = await Product.create(req.body);
     res.status(201).json({
         success: true,
-        product,
+        message:"product created successfully",
+        product:product
     });
 });
 
@@ -149,20 +147,17 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
 // delete a product -- admin API-> http://localhost:4000/api/v1/product/:id
 exports.deleteProduct = catchAsyncError(async (req, res, next) => {
     const product = await Product.findById(req.params.id);
-
-    // product not found
     if (!product){
         return next(new ErrorHandler("Product not found", 404));
     }
 
     // deleting images from cloudinary
-    for (let index; index < product.images.length; index++) {
+    for (let index=0; index < product.images.length; index++) {
         await cloudinary.v2.uploader.destroy(product.images[index].public_id);
     }
 
     // removing the product from the DB
-    // await product.remove();// this might not work to delete a product 
-    await Product.deleteOne({_id:id});
+    await Product.deleteOne({_id:req.params.id});
 
     // sending the response
     return res.status(200).json({
@@ -219,7 +214,7 @@ exports.createProductReview = catchAsyncError(async (req, res, next) => {
     }
 
     const isReviewed = product.reviews.find(
-        (rev) => rev.user.toString() === req.user._id.toString()
+        (rev) => rev.user.toString() === req.user._id.toString() // check if same user is giving review or some other user is giving reviews
     );
 
     // already reviewed
@@ -231,7 +226,7 @@ exports.createProductReview = catchAsyncError(async (req, res, next) => {
             }
         });
     }
-    // not reviewed already
+    // not reviewed already by this user
     else {
         // add this new review object at the end of the reviews array of this product
         product.reviews.push(review);

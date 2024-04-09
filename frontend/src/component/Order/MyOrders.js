@@ -19,7 +19,9 @@ const MyOrders = () => {
 
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
+  console.log("order page ", user );
   const { loading, error, orders } = useSelector((state) => state.myOrder);
+  console.log("Order page ", orders, loading, error);
   const alert = useAlert();
   
   const navigate = useNavigate();

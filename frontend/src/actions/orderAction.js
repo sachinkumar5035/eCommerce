@@ -32,7 +32,7 @@ export const createOrder = (order) => async (dispatch) => {
                 "Content-Type": "application/json",
             }
         }
-        const { data } = await axios.post("http://192.168.0.100:4000/api/v1/order/new", order, config); // to create a new order
+        const { data } = await axios.post("http://localhost:4000/api/v1/order/new", order, config); // to create a new order
         dispatch({ 
             type: CREATE_ORDER_SUCCESS, 
             payload: data 
@@ -52,7 +52,7 @@ export const myOrders = () => async (dispatch) => {
 
     try {
         dispatch({ type: MY_ORDER_REQUEST })
-        const { data } = await axios.get("http://192.168.0.100:4000/api/v1/orders/me"); // to get own orders check in order route in backend
+        const { data } = await axios.get("http://localhost:4000/api/v1/orders/me"); // to get own orders check in order route in backend
         dispatch({ type: MY_ORDER_SUCCESS, payload: data.orders }); // from backend route for orders of a user we are sending orders 
     } catch (error) {
         dispatch({
@@ -69,7 +69,7 @@ export const getALlOrders = () => async (dispatch) => {
 
     try {
         dispatch({ type: ALL_ORDER_REQUEST })
-        const { data } = await axios.get("http://192.168.0.100:4000/api/v1/admin/orders"); // to get all orders check in order route in backend
+        const { data } = await axios.get("http://localhost:4000/api/v1/admin/orders"); // to get all orders check in order route in backend
         dispatch({ type: ALL_ORDER_SUCCESS, payload: data.orders }); // from backend route for orders of a user we are sending orders 
     } catch (error) {
         dispatch({
@@ -92,7 +92,7 @@ export const updateOrder = (id,order) => async (dispatch) => {
                 "Content-Type": "application/json",
             }
         }
-        const { data } = await axios.put(`http://192.168.0.100:4000/api/v1/admin/order/${id}`); // to create a new order
+        const { data } = await axios.put(`http://localhost:4000/api/v1/admin/order/${id}`); // to create a new order
         dispatch({ type: UPDATE_ORDER_SUCCESS, payload: data.success,order,config });
     } catch (error) {
         dispatch({
@@ -108,7 +108,7 @@ export const deleteOrder = (id) => async (dispatch) => {
 
     try {
         dispatch({ type: DELETE_ORDER_REQUEST });
-        const { data } = await axios.delete(`http://192.168.0.100:4000/api/v1/admin/order/${id}`,); // to create a new order
+        const { data } = await axios.delete(`http://localhost:4000/api/v1/admin/order/${id}`,); // to create a new order
         dispatch({ type: DELETE_ORDER_SUCCESS, payload: data.success });
     } catch (error) {
         dispatch({
@@ -124,7 +124,7 @@ export const getOrderDetails = (id) => async (dispatch) => {
 
     try {
         dispatch({ type: ORDER_DETAILS_REQUEST })
-        const { data } = await axios.get(`http://192.168.0.100:4000/api/v1/order/${id}`); // to get order details, check in order route in backend
+        const { data } = await axios.get(`http://localhost:4000/api/v1/order/${id}`); // to get order details, check in order route in backend
         dispatch({
             type: ORDER_DETAILS_SUCCESS,
             payload: data.order
