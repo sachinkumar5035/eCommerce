@@ -54,7 +54,7 @@ export const newOrderReducer = (state = {}, action) => {
 
 
 
-// to fetch orders
+// in this reducer only loading, orders and error states are present
 export const myOrdersReducer = (state = { orders: [] }, action) => {
     switch (action.type) {
         case MY_ORDER_REQUEST:

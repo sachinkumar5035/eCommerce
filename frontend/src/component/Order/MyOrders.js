@@ -16,7 +16,6 @@ import { useNavigate } from "react-router-dom";
 
 const MyOrders = () => {
 
-
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   console.log("order page ", user );
@@ -94,15 +93,14 @@ const MyOrders = () => {
         amount: item.totalPrice,
       });
     });
-
-  useEffect(() => {
-    if (error) {
-      alert.error(error);
-      dispatch(clearErrors());
-    }
-
-    dispatch(myOrders());
-  }, [dispatch, alert, error]);
+    
+    useEffect(() => {
+      if (error) {
+        alert.error(error);
+        dispatch(clearErrors());
+      }
+      dispatch(myOrders());
+  }, [ alert, error]);
   return (
     <Fragment>
       <MetaData title={`${user.name} - Orders`} />

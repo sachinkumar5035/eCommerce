@@ -9,11 +9,12 @@ const sendToken =  (user,statusCode,res)=>{
         expires: new Date(
             Date.now()+process.env.COOKIE_EXPIRE*24*60*60*1000 // to convert into millisecond
         ),
-        httpOnly:true, // remove when using on local 
-        secure:true, // remove when using on local 
+        // httpOnly:true, // remove when using on local 
+        // secure:true, // remove when using on local 
         // sameSite:"none" // remove when using on local 
     };
-    res.status(statusCode).cookie("token", token, options).json({
+    res.cookie('token',token, options) // save cookie for 1 hr 
+    res.status(statusCode).json({
         success: true,
         user,
         token,

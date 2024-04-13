@@ -42,20 +42,21 @@ import ProductReviews from "./component/Admin/ProductReviews.js";
 import About from "./component/layout/About/About";
 import Contact from "./component/layout/Contact/Contact";
 
+
 function App() {
   const { user, isAuthenticated } = useSelector((state) => state.user); // pulling isAuthenticated and user from state(redux)
   const [stripeApiKey, setStripeApiKey] = useState("");
   const dispatch = useDispatch();
   async function getStripeApiKey() {
+    // setStripeApiKey("pk_test_51MP5oPSC7de4UHnWJpZHtLjvOf8LPVXwUeAW55DRp9zvaq465uhOkHmGOviFCsuaOuj1JWElKVyFDeid6oevcJK600BSVqVt0O");
     try {
-      const { data } = await axios.get("http://localhost:4000/api/v1/stripeapikey"); // data is a object 
+      const { data } = await axios.get("/api/v1/stripeapikey"); // data is a object 
+      // console.log(data);
       setStripeApiKey(data.stripeApiKey);
     } catch (error) {
       console.log("stripe error",error);
     }
   }
-  
-  console.log("stripeApiKey",stripeApiKey);
 
   useEffect(() => {
     WebFont.load({
@@ -73,6 +74,9 @@ function App() {
       <Header />
       {isAuthenticated && <UserOptions user={user} />}
 
+      
+  
+      <Routes>
       {
         stripeApiKey && (<Route exact path="/process/payment" element={
           <Elements stripe={loadStripe(stripeApiKey)} >
@@ -80,8 +84,6 @@ function App() {
           </Elements>
         } /> )
       }
-  
-      <Routes>
         <Route exact path="/" element={<Home />} />
         <Route exact path="/login" element={<LoginSignUp />} />
         <Route exact path="/products" element={<Products />} />

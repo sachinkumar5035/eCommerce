@@ -8,19 +8,21 @@ const cloudinary = require("cloudinary"); // to upload images
 
 // to create a product API-> http://localhost:4000/api/v1/product/new
 exports.createProduct = catchAsyncError(async (req, res, next) => {
+
     let images = [];
-    // console.log(req.files.image);
-    if (req.files.image != "" && req.files.image != undefined) { // for one image(from frontend only one URL sent)
-        for (let i = 0; i < req.files.image.length; i++) {
-            images.push(req.files.image[i]);
-        }
-    }
-    // console.log("images",images);
+    if (typeof req.files.image === "string") {
+        images.push(req.files.image);
+      } else {
+        images = req.files.image;
+      }
+
     const imagesLinks = [];
     for (let index = 0; index < images.length; index++) {
         // const image = images[index];
         const result = await cloudinary.v2.uploader.upload(images[index].tempFilePath, (err,res)=>{
-            console.log("err",err);
+            
+            if(err)
+                console.log("err in product controller ",err);
             // console.log("res",res);
         })
 

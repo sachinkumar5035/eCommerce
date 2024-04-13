@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from "@material-ui/icons/Lock";
-import axios from "axios";
 
 
 const LoginSignUp = ({history}) => {

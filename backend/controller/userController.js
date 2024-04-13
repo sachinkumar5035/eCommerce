@@ -160,7 +160,8 @@ exports.resetPassword = catchAsyncError(async (req, res, next) => {
 // get user details  a user will fetch his or her details 
 exports.getUserDetails = catchAsyncError(async (req, res, next) => {
     const user = await User.findById(req.user.id);
-    // console.log(req.user.id);
+    // console.log("user id is ",req.user.id);
+    // console.log("cookies ",req.cookies);
     res.status(200).json({
         success: true,
         user,

@@ -54,7 +54,6 @@ const NewProduct = () => {
 
     }, [dispatch, error, alert, navigate, success]);
 
-
     const createProductSubmitHandler = (e) => {
         e.preventDefault();
         const myForm = new FormData();
@@ -64,7 +63,7 @@ const NewProduct = () => {
         myForm.set("category", category);
         myForm.set("stock", stock);  // in product model s in stock in small letter
         images.forEach((image) => {
-            myForm.append("images", image);
+            myForm.append("image", image);    // in the myForm we are sending image with the name file as we have received the image at backend with the name file 
         })
         dispatch(addNewProduct(myForm)); //call action method to add a product
     }
@@ -78,14 +77,15 @@ const NewProduct = () => {
         files.forEach((file) => {
             const reader = new FileReader();
             reader.onload = () => {
-                if (reader.readyState === 2) {
+                if (reader.readyState === 2) {  // reader have 3 states-> 0 for ready, 1 for processing, 2 for done
                     setImagesPreview((old) => [...old, reader.result]);
-                    setImages((old) => [...old, reader.result]);
+                    // setImages((old) => [...old, reader.result]);
+                    setImages((old)=>[...old, file]);
                 }
             }
             reader.readAsDataURL(file);
         });
-
+        // console.log("@@images",images);
     }
 
 
