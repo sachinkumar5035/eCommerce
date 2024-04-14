@@ -48,9 +48,8 @@ exports.createProduct = catchAsyncError(async (req, res, next) => {
 // get all products -- Route API-> http://localhost:4000/api/v1/products
 exports.getAllProducts = catchAsyncError(async (req, res, next) => {
 
-
     const resultPerPage = 8;
-    const productsCount = await Product.countDocuments();
+    const productsCount = await Product.countDocuments();  // number of products in product model
 
     const apiFeature = new ApiFeatures(Product.find(), req.query)
         .search()
@@ -68,10 +67,10 @@ exports.getAllProducts = catchAsyncError(async (req, res, next) => {
 
     res.status(200).json({
         success: true,
-        products,
-        productsCount, // ye name and const{product,loading,error,productsCount} me name same hona chahiye otherwise we will get the error 
-        resultPerPage,
-        filteredProductsCount,
+        productsCount:productsCount, // ye name and const{product,loading,error,productsCount} me name same hona chahiye otherwise we will get the error 
+        resultPerPage:resultPerPage,
+        filteredProductsCount:filteredProductsCount,
+        products:products
     });
 
 });

@@ -85,7 +85,6 @@ const NewProduct = () => {
             }
             reader.readAsDataURL(file);
         });
-        // console.log("@@images",images);
     }
 
 

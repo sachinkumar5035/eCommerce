@@ -13,7 +13,7 @@ import { useAlert } from "react-alert"
 
 
 
-const categories = [
+export const categories = [
     "Laptop",
     "Footwear",
     "Bottom",

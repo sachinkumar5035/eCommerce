@@ -19,7 +19,7 @@ class ApiFeatures{
         this.query = this.query.find({...keyword});
         return this; // return this class
     }
-
+    // API ka filter feature
     filter(){
         const queryCopy = {...this.queryString};
 

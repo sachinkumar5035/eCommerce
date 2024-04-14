@@ -13,7 +13,7 @@ import SideBar from "./Sidebar.js";
 import { UPDATE_PRODUCT_RESET } from "../../constants/productConstant";
 import { Button } from "@material-ui/core";
 import { useNavigate, useParams } from "react-router-dom";
-
+import { categories } from "../Product/Products.js";
 
 
 const UpdateProduct = () => {
@@ -32,15 +32,6 @@ const UpdateProduct = () => {
     const { loading, error: updateError, isUpdated } = useSelector((state) => state.deleteProduct); // from store 
     const { product, error } = useSelector((state) => state.productDetails);
 
-    const categories = [
-        "Laptop",
-        "Footwear",
-        "Bottom",
-        "Tops",
-        "Attire",
-        "Camera",
-        "Smartphone",
-    ];
     const productId = params.id;
 
     useEffect(() => {
