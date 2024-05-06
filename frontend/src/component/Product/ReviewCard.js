@@ -12,7 +12,10 @@ const ReviewCard = ({review}) => {
     };
 
   return (
-    <div className='reviewCard'>
+    <div className='reviewCard' style={{
+      height: '100%',
+      width:"200px"
+    }}>
       <img src={profilepng} alt="User" />
       <p>{review.name}</p>
       <Rating {...options}/>

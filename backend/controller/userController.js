@@ -10,11 +10,16 @@ const cloudinary = require("cloudinary");
 
 // register a user using API-> http://localhost:4000/api/v1/register 
 exports.registerUser = catchAsyncError(async (req, res, next) => { // using catchAsync function to handle try and catch block
+    
+    const { name, email, password } = req.body; // destructuring
+    if(await User.findOne({email})){
+        return next(new ErrorHandler("email already exist", 400));
+    }
     const image = req.files.file; // with name image we are sending the photo to upload
     const myCloud = await cloudinary.v2.uploader.upload(image.tempFilePath,(err,result)=>{
         console.log("err",err);
     });
-    const { name, email, password } = req.body; // destructuring
+    
     const user = await User.create({
         name, email, password,
         avatar: {

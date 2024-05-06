@@ -194,7 +194,6 @@ const ProductDetails = ({ match }) => {
                     )}
                 </Fragment>)}
         </Fragment>
-        // <div><h1>This is heading</h1></div>
     );
 };
 

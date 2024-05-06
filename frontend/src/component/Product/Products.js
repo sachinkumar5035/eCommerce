@@ -10,7 +10,7 @@ import Slider from "@material-ui/core/Slider";
 import Typography from "@material-ui/core/Typography";
 import Metadata from "../layout/MetaData";
 import { useAlert } from "react-alert"
-
+import CloseIcon from '@mui/icons-material/Close';
 
 
 export const categories = [
@@ -29,6 +29,8 @@ const Products = ({ match }) => {
     const params = useParams();
     const [category, setCategory] = useState("");
     const [ratings, setRatings] = useState(0); // show all the product above 0 ratings
+    const [minPrice, setMinPrice] = useState(0);
+    const [maxPrice, setMaxPrice] = useState(25000);
     const alert = useAlert();
     // getting it for search functionality -> send it in productAction -> get data using axios.get
     const keyword = params.keyword;
@@ -43,7 +45,15 @@ const Products = ({ match }) => {
 
     const priceHandler = (event, newPrice) => {
         setPrice(newPrice);
+        setMinPrice(newPrice[0]);
+        setMaxPrice(newPrice[1]);
     };
+
+    const clearCategory = ()=>{
+        setCategory("");
+        dispatch(getProduct(keyword,currentPage,price,"",ratings));
+    }
+
 
     useEffect(() => {
         if (error) {
@@ -51,7 +61,7 @@ const Products = ({ match }) => {
             dispatch(clearErrors());
         }
         dispatch(getProduct(keyword, currentPage, price, category, ratings)); // for pagination and search module
-    }, [dispatch, keyword, currentPage, price, category, ratings,alert,error]);
+    }, [dispatch, keyword, currentPage, price, category, ratings,alert,error ]);
 
     return (
         <Fragment>
@@ -75,28 +85,37 @@ const Products = ({ match }) => {
                         <Slider
                             value={price}
                             onChange={priceHandler}
-                            // if valueLabelDisplay is "on" then slider price will be always
                             valueLabelDisplay="auto"
-                            // range-slider is price range can be select by sliding
                             aria-labelledby="range-slider"
                             min={0}
-                            max={250000}
+                            max={2500} // this value is now hardcoded it can be pulled from the data base
                         />
+                        <div style={{display:"flex",flexDirection:'row',justifyContent:"space-between"}}>
+                        <input type="number" value={minPrice} style={{width:'40px'}}/>
+                        <input type="number" value={maxPrice} style={{width:'40px'}}/>
+                        </div>
                         {/* price filter slider end  */}
 
                         {/* category filter */}
-                        <Typography>Categories</Typography>
+                        <div style={{display:"flex",flexDirection:'row',justifyContent:"space-between"}}>
+                            <Typography>Categories</Typography>
+                            <CloseIcon  onClick={clearCategory}/>
+                            {/* <button onClick={clearCategory}>all</button> */}
+                        </div>
                         <ul className="categoryBox">
-                            {categories.map((category) => (
+                            {categories.map((_category) => {
+                                const isSelected=_category===category;
+                                return (
                                 <li
-                                    className="category-link"
-                                    key={category}
-                                    onClick={() => setCategory(category)}
+                                    className={`category-link ${isSelected?"selectedLabel":""}`}
+                                    key={_category}
+                                    onClick={() => setCategory(_category)}
                                 >
-                                    {category}
+                                    {_category}
                                 </li>
-                            ))}
+                            )})}
                         </ul>
+                        
                         {/* end category slider */}
 
                         {/* rating filter start */}
@@ -116,7 +135,7 @@ const Products = ({ match }) => {
                         {/* rating filter end */}
                     </div>
 
-                    {/* pagination condition is for showing pagination if resultperPage is lessthan total products */}
+                    {/* pagination condition is for showing pagination if resultperPage is less than total products */}
                     {resultPerPage < productsCount && (
                         <div className="paginationBox">
                             <Pagination
