@@ -3,25 +3,31 @@ import "./LoginSignUp.css";
 import Loader from "../layout/Loader/Loader";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { login,register,clearErrors } from "../../actions/userAction";
+import { login, register, clearErrors, verifyRecaptcha } from "../../actions/userAction";
 import { useAlert } from "react-alert";
 import { useNavigate } from "react-router-dom";
 import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from "@material-ui/icons/Lock";
+import ReCAPTCHA from "react-google-recaptcha";
+import axios from "axios";
 
+const V2_SITE_KEY = "6LeyseEpAAAAAJS-asoKVdC_Cpm_lXI_NG9dOizj";
+const V2_SECRET_KEY="6LeyseEpAAAAAGirgACYQGUtmV9ymcx7_ldJSE8X";
 
-const LoginSignUp = ({history}) => {
+const LoginSignUp = ({ history }) => {
     const loginTab = useRef(null); // can not access dom element in react directly that's is why using useRef
     const registerTab = useRef(null);
     const switcherTab = useRef(null);
+    const recaptchaRef = useRef(null);
     const [loginEmail, setLoginEmail] = useState("");
     const [loginPassword, setLoginPassword] = useState("");
+    const [isVerified, setIsVerified] = useState(false);
     const [user, setUser] = useState({
         name: "",
         password: "",
         email: ""
-    })
+    });
     const { name, email, password } = user;
     const [avatar, setAvatar] = useState("/Profile.png");
     const [avatarPreview, setAvatarPreview] = useState("/Profile.png");
@@ -31,9 +37,21 @@ const LoginSignUp = ({history}) => {
     const { error, loading, isAuthenticated } = useSelector((state) => state.user);
     const navigate = useNavigate();
     const location = useLocation();
-    const loginSubmit = (e) => {
+    const loginSubmit = async (e) => {
         e.preventDefault();
-        dispatch(login(loginEmail, loginPassword));
+        const captchaValue = recaptchaRef?.current?.getValue();
+        if (!captchaValue) {
+            alert.error('Please verify the reCAPTCHA!');
+        }
+        else {
+            const data = await verifyRecaptcha(captchaValue);
+            if(data.success) {
+                setIsVerified(true);
+                dispatch(login(email, password));
+            }else{
+                alert.error('You are not human, Please verify the reCAPTCHA!');
+            }
+        }
     };
 
     const registerSubmit = async (e) => {
@@ -64,10 +82,8 @@ const LoginSignUp = ({history}) => {
     }
 
     //control comes here from checkout from cart page if user is logged in already then it will go to shipping page, otherwise it will go to login page 
-    const redirect = location.search ? location.search.split("=")[1]:"/account";
+    const redirect = location.search ? location.search.split("=")[1] : "/account";
     // need to get first or last string of location.search but not able to get the correct string 
-
-
 
     useEffect(() => {
         if (error) {
@@ -75,11 +91,11 @@ const LoginSignUp = ({history}) => {
             dispatch(clearErrors());
         }
 
-        if(isAuthenticated){
+        if (isAuthenticated) {
             navigate(redirect);
             // history.push(redirect);
         }
-    }, [dispatch, error, alert,navigate,isAuthenticated,redirect,history])
+    }, [dispatch, error, alert, navigate, isAuthenticated, redirect, history])
 
 
 
@@ -113,9 +129,9 @@ const LoginSignUp = ({history}) => {
                             <button ref={switcherTab}></button>
                         </div>
                         {/* Login form start */}
-                        <form ref={loginTab} className="loginForm" onSubmit={loginSubmit}>
+                        <form disabled={isVerified} ref={loginTab} className="loginForm" onSubmit={loginSubmit}>
                             <div className="loginEmail">
-                                <EmailIcon className="icon"/>
+                                <EmailIcon className="icon" />
                                 <input
                                     type="email"
                                     placeholder="abc@gmail.com"
@@ -125,7 +141,7 @@ const LoginSignUp = ({history}) => {
                                 />
                             </div>
                             <div className="loginPassword">
-                                <LockIcon className="icon"/>
+                                <LockIcon className="icon" />
                                 <input
                                     type="password"
                                     placeholder="password"
@@ -136,6 +152,7 @@ const LoginSignUp = ({history}) => {
                             </div>
                             <Link to="/password/forgot">Forgot password</Link>
                             <input type="submit" value="Login" className="loginBtn" />
+                            <ReCAPTCHA ref={recaptchaRef} sitekey={V2_SITE_KEY}/>
                         </form>
                         {/* Login form end */}
 
@@ -148,7 +165,7 @@ const LoginSignUp = ({history}) => {
                         >
                             <div className="signUpName">
                                 {/* <p>Name</p> */}
-                                <PersonIcon className="icon"/>
+                                <PersonIcon className="icon" />
                                 <input
                                     type="text"
                                     placeholder="Name"
@@ -160,7 +177,7 @@ const LoginSignUp = ({history}) => {
                             </div>
                             <div className="signUpEmail">
                                 {/* <p>Email</p> */}
-                                <EmailIcon className="icon"/>
+                                <EmailIcon className="icon" />
                                 <input
                                     type="email"
                                     placeholder="abc@gmail.com"
@@ -172,7 +189,7 @@ const LoginSignUp = ({history}) => {
                             </div>
                             <div className="signUpPassword">
                                 {/* <p>Password</p> */}
-                                <LockIcon className="icon"/>
+                                <LockIcon className="icon" />
                                 <input
                                     type="password"
                                     placeholder="Password"

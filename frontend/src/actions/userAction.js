@@ -34,20 +34,22 @@ import {
     DELETE_USER_REQUEST,
     DELETE_USER_SUCCESS,
     DELETE_USER_FAIL,
-    CLEAR_ERRORS
-    
+    CLEAR_ERRORS,
+    RECAPTCHA_REQUEST,
+    RECAPTCHA_FAIL,
+    RECAPTCHA_SUCCESS,
 } from "../constants/userConstants";
 import axios from "axios";
-// import axiosInstance from "../config/baseAPI.js/baseAPI";
 
 // for login
 export const login = (email, password) => async (dispatch) => {
     try {
         dispatch({ type: LOGIN_REQUEST });
         const config = { headers: { "Content-Type": "application/json" } };
-        const {data} = await axios.post(`/api/v1/login`, { email, password }, config,{withCredential: true}); // api for login a user
-        dispatch({type:LOGIN_SUCCESS,
-            payload:data.user
+        const { data } = await axios.post(`/api/v1/login`, { email, password }, config, { withCredential: true }); // api for login a user
+        dispatch({
+            type: LOGIN_SUCCESS,
+            payload: data.user
         });
 
     } catch (error) {
@@ -61,14 +63,15 @@ export const login = (email, password) => async (dispatch) => {
 
 // for register purpose
 // here userData is formData in loginsignUp.js page
-export const register = (userData)=> async (dispatch)=>{
+export const register = (userData) => async (dispatch) => {
 
     try {
-        dispatch({type:REGISTER_USER_REQUEST});
-        const config = { headers : { "Content-Type": "multipart/form-data" } };
-        const {data} = await axios.post(`/api/v1/register`, userData, config,{withCredential: true}); // api for login a user
-        dispatch({type:REGISTER_USER_SUCCESS,
-            payload:data.user
+        dispatch({ type: REGISTER_USER_REQUEST });
+        const config = { headers: { "Content-Type": "multipart/form-data" } };
+        const { data } = await axios.post(`/api/v1/register`, userData, config, { withCredential: true }); // api for login a user
+        dispatch({
+            type: REGISTER_USER_SUCCESS,
+            payload: data.user
         });
 
     } catch (error) {
@@ -84,11 +87,12 @@ export const register = (userData)=> async (dispatch)=>{
 export const loadUser = () => async (dispatch) => {
     try {
         dispatch({ type: LOAD_USER_REQUEST });
-        const {data} = await axios.get(`/api/v1/me`,{withCredential: true}); // api for login a user details 
-        dispatch({type:LOAD_USER_SUCCESS,
-            payload:data?.user
+        const { data } = await axios.get(`/api/v1/me`, { withCredential: true }); // api for login a user details 
+        dispatch({
+            type: LOAD_USER_SUCCESS,
+            payload: data?.user
         });
-        
+
     } catch (error) {
         dispatch({
             type: LOAD_USER_FAIL,
@@ -103,9 +107,9 @@ export const logout = () => async (dispatch) => {
     try {
         dispatch({ type: LOAD_USER_REQUEST });
 
-        await axios.get(`/api/v1/logout`,{withCredential: true}); // api for logout a user 
+        await axios.get(`/api/v1/logout`, { withCredential: true }); // api for logout a user 
 
-        dispatch({type:LOGOUT_SUCCESS});
+        dispatch({ type: LOGOUT_SUCCESS });
 
     } catch (error) {
         dispatch({
@@ -116,17 +120,18 @@ export const logout = () => async (dispatch) => {
 };
 
 // update user profile
-export const updateProfile = (userData)=> async (dispatch)=>{
+export const updateProfile = (userData) => async (dispatch) => {
 
     try {
-        dispatch({type:UPDATE_PROFILE_REQUEST});
+        dispatch({ type: UPDATE_PROFILE_REQUEST });
 
-        const config = { headers : { "Content-Type": "multipart/form-data" } };
+        const config = { headers: { "Content-Type": "multipart/form-data" } };
 
-        const {data} = await axios.put(`/api/v1/me/update`, userData, config); // api for update profile check in userRoute.js
+        const { data } = await axios.put(`/api/v1/me/update`, userData, config); // api for update profile check in userRoute.js
 
-        dispatch({type:UPDATE_PROFILE_SUCCESS,
-            payload:data.success
+        dispatch({
+            type: UPDATE_PROFILE_SUCCESS,
+            payload: data.success
         });
 
     } catch (error) {
@@ -139,17 +144,18 @@ export const updateProfile = (userData)=> async (dispatch)=>{
 
 
 // update user password
-export const updatePassword = (password)=> async (dispatch)=>{
+export const updatePassword = (password) => async (dispatch) => {
 
     try {
-        dispatch({type:UPDATE_PASSWORD_REQUEST});
+        dispatch({ type: UPDATE_PASSWORD_REQUEST });
 
-        const config = { headers : { "Content-Type": "application/json" } };
+        const config = { headers: { "Content-Type": "application/json" } };
 
-        const {data} = await axios.put(`/api/v1/password/update`, password, config); // api for update profile check in userRoute.js
+        const { data } = await axios.put(`/api/v1/password/update`, password, config); // api for update profile check in userRoute.js
 
-        dispatch({type:UPDATE_PASSWORD_SUCCESS,
-            payload:data.success
+        dispatch({
+            type: UPDATE_PASSWORD_SUCCESS,
+            payload: data.success
         });
 
     } catch (error) {
@@ -162,17 +168,18 @@ export const updatePassword = (password)=> async (dispatch)=>{
 
 
 // forgot password 
-export const forgotPassword = (email)=> async (dispatch)=>{
+export const forgotPassword = (email) => async (dispatch) => {
 
     try {
-        dispatch({type:FORGOT_PASSWORD_REQUEST});
+        dispatch({ type: FORGOT_PASSWORD_REQUEST });
 
-        const config = { headers : { "Content-Type": "application/json" } };
+        const config = { headers: { "Content-Type": "application/json" } };
 
-        const {data} = await axios.post(`/api/v1/password/forgot`, email, config); // api for forgot password check in userRoute.js
+        const { data } = await axios.post(`/api/v1/password/forgot`, email, config); // api for forgot password check in userRoute.js
 
-        dispatch({type:FORGOT_PASSWORD_SUCCESS,
-            payload:data.message
+        dispatch({
+            type: FORGOT_PASSWORD_SUCCESS,
+            payload: data.message
         });
 
     } catch (error) {
@@ -186,17 +193,18 @@ export const forgotPassword = (email)=> async (dispatch)=>{
 
 
 // reset password 
-export const resetPassword = (token,passwords)=> async (dispatch)=>{
+export const resetPassword = (token, passwords) => async (dispatch) => {
 
     try {
-        dispatch({type:RESET_PASSWORD_REQUEST});
+        dispatch({ type: RESET_PASSWORD_REQUEST });
 
-        const config = { headers : { "Content-Type": "application/json" } };
+        const config = { headers: { "Content-Type": "application/json" } };
 
-        const {data} = await axios.put(`/api/v1/password/reset/${token}`, passwords, config); // api for reset password check in userRoute.js
+        const { data } = await axios.put(`/api/v1/password/reset/${token}`, passwords, config); // api for reset password check in userRoute.js
 
-        dispatch({type:RESET_PASSWORD_SUCCESS,
-            payload:data.success // we are sending payload as success from reducer 
+        dispatch({
+            type: RESET_PASSWORD_SUCCESS,
+            payload: data.success // we are sending payload as success from reducer 
         });
 
     } catch (error) {
@@ -214,10 +222,11 @@ export const getAllUsers = () => async (dispatch) => {
         dispatch({ type: ALL_USERS_REQUEST });
 
         // get all user API 
-        const {data} = await axios.get(`/api/v1/admin/users`); // api to fetch all users 
+        const { data } = await axios.get(`/api/v1/admin/users`); // api to fetch all users 
 
-        dispatch({type:ALL_USERS_SUCCESS,
-            payload:data.users, // in reducer we are fetching the users
+        dispatch({
+            type: ALL_USERS_SUCCESS,
+            payload: data.users, // in reducer we are fetching the users
         });
 
     } catch (error) {
@@ -235,10 +244,11 @@ export const getUserDetails = (id) => async (dispatch) => {
         dispatch({ type: USER_DETAILS_REQUEST });
 
         // get user details API 
-        const {data} = await axios.get(`/api/v1/admin/user/${id}`); // api to fetch user details 
+        const { data } = await axios.get(`/api/v1/admin/user/${id}`); // api to fetch user details 
 
-        dispatch({type:USER_DETAILS_SUCCESS,
-            payload:data.user, // in reducer we are fetching the user
+        dispatch({
+            type: USER_DETAILS_SUCCESS,
+            payload: data.user, // in reducer we are fetching the user
         });
 
     } catch (error) {
@@ -251,17 +261,18 @@ export const getUserDetails = (id) => async (dispatch) => {
 
 
 // update user(admin)
-export const updateUser = (id,userData)=> async (dispatch)=>{
+export const updateUser = (id, userData) => async (dispatch) => {
 
     try {
-        dispatch({type:UPDATE_USER_REQUEST});
+        dispatch({ type: UPDATE_USER_REQUEST });
 
-        const config = { headers : { "Content-Type": "application/json" } };
+        const config = { headers: { "Content-Type": "application/json" } };
 
-        const {data} = await axios.put(`/api/v1/admin/user/${id}`, userData, config); // api for update profile check in userRoute.js
+        const { data } = await axios.put(`/api/v1/admin/user/${id}`, userData, config); // api for update profile check in userRoute.js
 
-        dispatch({type:UPDATE_USER_SUCCESS,
-            payload:data.success, // will get it as isUpdated in reducer 
+        dispatch({
+            type: UPDATE_USER_SUCCESS,
+            payload: data.success, // will get it as isUpdated in reducer 
         });
 
     } catch (error) {
@@ -274,15 +285,16 @@ export const updateUser = (id,userData)=> async (dispatch)=>{
 
 
 // delete user(admin)
-export const deleteUser = (id)=> async (dispatch)=>{
+export const deleteUser = (id) => async (dispatch) => {
 
     try {
-        dispatch({type:DELETE_USER_REQUEST});
+        dispatch({ type: DELETE_USER_REQUEST });
 
-        const {data} = await axios.delete(`/api/v1/admin/user/${id}`); // api for update profile check in userRoute.js
+        const { data } = await axios.delete(`/api/v1/admin/user/${id}`); // api for update profile check in userRoute.js
 
-        dispatch({type:DELETE_USER_SUCCESS,
-            payload:data
+        dispatch({
+            type: DELETE_USER_SUCCESS,
+            payload: data
         });
 
     } catch (error) {
@@ -296,4 +308,16 @@ export const deleteUser = (id)=> async (dispatch)=>{
 // clear all errors
 export const clearErrors = () => async (dispatch) => {
     dispatch({ type: CLEAR_ERRORS });
-  };
+};
+
+
+export const verifyRecaptcha = async (captchaValue) =>  {
+
+    try {
+        const config = { headers: { "Content-Type": "application/json" } };
+        const {data} = await axios.post(`/api/v1/verify`,{captchaValue},config);  
+        return data;
+    } catch (error) {
+        console.error("@@@@error ",error.message);
+    }
+}

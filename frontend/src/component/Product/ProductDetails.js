@@ -19,9 +19,9 @@ const ProductDetails = ({ match }) => {
     const alert = useAlert();
     const dispatch = useDispatch();
     // const keyword = params.keyword;
- 
+
     // fetch data from store
-    const {error:reviewError,success} = useSelector((state)=>state.newReview); // pulling success and error from newReview store
+    const { error: reviewError, success } = useSelector((state) => state.newReview); // pulling success and error from newReview store
 
     const { product, loading, error } = useSelector((state) => state.productDetails); // here name of store and state.nameOfParameter should be matched
 
@@ -33,20 +33,20 @@ const ProductDetails = ({ match }) => {
     };
 
     const [quantity, setQuantity] = useState(1);
-    const [rating,setRating] = useState(0);
-    const [comment,setComment] = useState("");
-    const [open,setOpen] = useState(false);
+    const [rating, setRating] = useState(0);
+    const [comment, setComment] = useState("");
+    const [open, setOpen] = useState(false);
 
-    const submitReviewToggle=()=>{
+    const submitReviewToggle = () => {
         open ? setOpen(false) : setOpen(true);
     }
 
-    const reviewSubmitHandler = ()=>{
+    const reviewSubmitHandler = () => {
         // console.log(product._id); // id is not getting
         const myForm = new FormData();
-        myForm.set("rating",rating);
-        myForm.set("comment",comment);
-        myForm.set("productId",params.id);
+        myForm.set("rating", rating);
+        myForm.set("comment", comment);
+        myForm.set("productId", params.id);
         dispatch(addNewReview(myForm));
         setOpen(false);
     }
@@ -79,16 +79,16 @@ const ProductDetails = ({ match }) => {
             alert.error(error);
             dispatch(clearErrors());
         }
-        if(reviewError){
+        if (reviewError) {
             alert.error(reviewError);
             dispatch(clearErrors());
         }
         if (success) {
             alert.success("Review Submitted Successfully");
             dispatch({ type: NEW_REVIEW_RESET });
-          }
+        }
         dispatch(getProductDetails(params.id));
-    }, [dispatch, params.id, error, alert,success,reviewError]);
+    }, [dispatch, params.id, error, alert, success, reviewError]);
 
     return (
         <Fragment>
@@ -186,7 +186,7 @@ const ProductDetails = ({ match }) => {
                     {product.reviews && product.reviews[0] ? (
                         <div className="reviews">
                             {product.reviews.map((review) => (
-                                <ReviewCard review={review} /> // here we are sending review in ReviewCard need to recieve it as it is
+                                <ReviewCard key={review._id} review={review} /> // here we are sending review in ReviewCard need to recieve it as it is
                             ))}
                         </div>
                     ) : (
