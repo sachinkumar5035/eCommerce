@@ -50,4 +50,5 @@ router
   .route("/admin/user/:id")
   .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteUser); // delete a user- admin
 
+
 module.exports = router;

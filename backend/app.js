@@ -23,16 +23,16 @@ dotenv.config({path:"backend/config/config.env"});
 const productRoute = require("./routes/productRoute"); // product route
 const userRoute = require("./routes/userRoute"); // user route
 const orderRoute = require("./routes/orderRoute"); // order route
-const payment = require("./routes/PaymentRoute"); // payment route
-
+const paymentRoute = require("./routes/PaymentRoute"); // payment route
+const captchaRoute = require("./routes/capthcaRoute"); // captcha route
 
 
 // API will be called as http://localhost:4000/api/v1/apiName
 app.use("/api/v1",productRoute);  // product API   http://localhost:4000/api/v1/
 app.use("/api/v1",userRoute); // user API http://localhost:4000/api/v1/
 app.use("/api/v1",orderRoute); // order api will be called as-> http://localhost:4000/api/v1/
-app.use("/api/v1",payment); // payment route will be called as-> http://localhost:400/api/v1/
-
+app.use("/api/v1",paymentRoute); // payment route will be called as-> http://localhost:400/api/v1/
+app.use("/api/v1",captchaRoute); // captcha route
 
 
 
