@@ -14,7 +14,7 @@ import { clearErrors, createOrder } from '../../actions/orderAction';
 import { removeItemFromCart } from '../../actions/cartAction';
 
 const Payment = () => {
-
+    console.log('Payment page ');
     const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo")); // getting orderInfo from session storage
 
     const payBtn = useRef(null);

@@ -48,10 +48,9 @@ function App() {
   const [stripeApiKey, setStripeApiKey] = useState("");
   const dispatch = useDispatch();
   async function getStripeApiKey() {
-    // setStripeApiKey("pk_test_51MP5oPSC7de4UHnWJpZHtLjvOf8LPVXwUeAW55DRp9zvaq465uhOkHmGOviFCsuaOuj1JWElKVyFDeid6oevcJK600BSVqVt0O");
     try {
       const { data } = await axios.get("/api/v1/stripeapikey"); // data is a object 
-      // console.log(data);
+      console.log(data);
       setStripeApiKey(data.stripeApiKey);
     } catch (error) {
       console.log("stripe error",error);
@@ -67,7 +66,7 @@ function App() {
     store.dispatch(loadUser()); // user will always available in state
     getStripeApiKey(); // this is giving stripe error
   }, [dispatch]);
-  // window.addEventListener("contextmenu", (e) => e.preventDefault());
+  // window.addEventListener("contextmenu", (e) => e.preventDefault()); // prevent right click on site
 
   return (
     <Router>

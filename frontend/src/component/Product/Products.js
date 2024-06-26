@@ -49,9 +49,9 @@ const Products = ({ match }) => {
         setMaxPrice(newPrice[1]);
     };
 
-    const clearCategory = ()=>{
+    const clearCategory = () => {
         setCategory("");
-        dispatch(getProduct(keyword,currentPage,price,"",ratings));
+        dispatch(getProduct(keyword, currentPage, price, "", ratings));
     }
 
 
@@ -61,7 +61,7 @@ const Products = ({ match }) => {
             dispatch(clearErrors());
         }
         dispatch(getProduct(keyword, currentPage, price, category, ratings)); // for pagination and search module
-    }, [dispatch, keyword, currentPage, price, category, ratings,alert,error ]);
+    }, [dispatch, keyword, currentPage, price, category, ratings, alert, error]);
 
     return (
         <Fragment>
@@ -88,34 +88,37 @@ const Products = ({ match }) => {
                             valueLabelDisplay="auto"
                             aria-labelledby="range-slider"
                             min={0}
-                            max={2500} // this value is now hardcoded it can be pulled from the data base
+                            max={1000} // this value is now hardcoded it can be pulled from the data base
                         />
-                        <div style={{display:"flex",flexDirection:'row',justifyContent:"space-between"}}>
-                        <input type="number" value={minPrice} style={{width:'40px'}}/>
-                        <input type="number" value={maxPrice} style={{width:'40px'}}/>
+                        <div style={{ display: "flex", flexDirection: 'row', justifyContent:"space-between", margin:"5px 0px" }}>
+                            <label style={{ fontSize: '10px' }}> Min Price
+                                <input type="number" value={minPrice} style={{ width: '40px',border:"none" }} /></label>
+                            <label style={{ fontSize: '10px'}}>Max Price
+                                <input type="number" value={maxPrice} style={{ width: '40px',border:'none' }} />
+                            </label>
                         </div>
                         {/* price filter slider end  */}
 
                         {/* category filter */}
-                        <div style={{display:"flex",flexDirection:'row',justifyContent:"space-between"}}>
+                        <div style={{ display: "flex", flexDirection: 'row', justifyContent: "space-between" }}>
                             <Typography>Categories</Typography>
-                            <CloseIcon  onClick={clearCategory}/>
-                            {/* <button onClick={clearCategory}>all</button> */}
+                            <CloseIcon onClick={clearCategory} />
                         </div>
                         <ul className="categoryBox">
                             {categories.map((_category) => {
-                                const isSelected=_category===category;
+                                const isSelected = _category === category;
                                 return (
-                                <li
-                                    className={`category-link ${isSelected?"selectedLabel":""}`}
-                                    key={_category}
-                                    onClick={() => setCategory(_category)}
-                                >
-                                    {_category}
-                                </li>
-                            )})}
+                                    <li
+                                        className={`category-link ${isSelected ? "selectedLabel" : ""}`}
+                                        key={_category}
+                                        onClick={() => setCategory(_category)}
+                                    >
+                                        {_category}
+                                    </li>
+                                )
+                            })}
                         </ul>
-                        
+
                         {/* end category slider */}
 
                         {/* rating filter start */}

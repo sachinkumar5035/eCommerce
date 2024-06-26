@@ -10,10 +10,8 @@ import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from "@material-ui/icons/Lock";
 import ReCAPTCHA from "react-google-recaptcha";
-import axios from "axios";
 
 const V2_SITE_KEY = "6LeyseEpAAAAAJS-asoKVdC_Cpm_lXI_NG9dOizj";
-const V2_SECRET_KEY="6LeyseEpAAAAAGirgACYQGUtmV9ymcx7_ldJSE8X";
 
 const LoginSignUp = ({ history }) => {
     const loginTab = useRef(null); // can not access dom element in react directly that's is why using useRef

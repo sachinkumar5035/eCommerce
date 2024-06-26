@@ -30,6 +30,7 @@ const ConfirmOrder = () => {
       tax,
       totalPrice
     }
+    console.log("clicked payment method");
     sessionStorage.setItem("orderInfo", JSON.stringify(data)); // stored in session store
     navigate("/process/payment"); // redirect to payment page
   }

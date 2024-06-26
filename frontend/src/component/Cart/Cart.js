@@ -12,13 +12,6 @@ import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
     const aler = useAlert();
-    // const item = {
-    //     product: "sample product", // this will work as a item id
-    //     price: 1500,
-    //     name: "sample item",
-    //     quantity: 2,
-    //     image: "https://thumbs.dreamstime.com/z/news-newspapers-folded-stacked-word-wooden-block-puzzle-dice-concept-newspaper-media-press-release-42301371.jpg"
-    // }
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
