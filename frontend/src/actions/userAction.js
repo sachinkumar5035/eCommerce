@@ -34,10 +34,7 @@ import {
     DELETE_USER_REQUEST,
     DELETE_USER_SUCCESS,
     DELETE_USER_FAIL,
-    CLEAR_ERRORS,
-    RECAPTCHA_REQUEST,
-    RECAPTCHA_FAIL,
-    RECAPTCHA_SUCCESS,
+    CLEAR_ERRORS
 } from "../constants/userConstants";
 import axios from "axios";
 
