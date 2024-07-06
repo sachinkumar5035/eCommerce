@@ -49,7 +49,8 @@ function App() {
   const dispatch = useDispatch();
   async function getStripeApiKey() {
     try {
-      const { data } = await axios.get("/api/v1/stripeapikey"); // data is a object 
+      // const { data } = await axios.get("/api/v1/stripeapikey"); // data is a object 
+      const {data} = await axios.get("http://localhost:4000/api/v1/stripeapikey");
       console.log(data);
       setStripeApiKey(data.stripeApiKey);
     } catch (error) {
@@ -72,9 +73,6 @@ function App() {
     <Router>
       <Header />
       {isAuthenticated && <UserOptions user={user} />}
-
-      
-  
       <Routes>
       {
         stripeApiKey && (<Route exact path="/process/payment" element={
