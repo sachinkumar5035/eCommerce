@@ -10,7 +10,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from "@material-ui/icons/Lock";
 import ReCAPTCHA from "react-google-recaptcha";
-
+import VisibilityIcon from '@mui/icons-material/Visibility';
 const V2_SITE_KEY = "6LeyseEpAAAAAJS-asoKVdC_Cpm_lXI_NG9dOizj";
 
 const LoginSignUp = ({ history }) => {
@@ -26,6 +26,7 @@ const LoginSignUp = ({ history }) => {
         password: "",
         email: ""
     });
+    const [isText,setIsText] = useState(false);
     const { name, email, password } = user;
     const [avatar, setAvatar] = useState("/Profile.png");
     const [avatarPreview, setAvatarPreview] = useState("/Profile.png");
@@ -141,12 +142,13 @@ const LoginSignUp = ({ history }) => {
                             <div className="loginPassword">
                                 <LockIcon className="icon" />
                                 <input
-                                    type="password"
+                                    type={isText ? "Text" : "Password"}
                                     placeholder="password"
                                     required
                                     value={loginPassword}
                                     onChange={(e) => setLoginPassword(e.target.value)}
                                 />
+                                <VisibilityIcon onClick={()=>setIsText(!isText)}/>
                             </div>
                             <Link to="/password/forgot">Forgot password</Link>
                             <input type="submit" value="Login" className="loginBtn" />
