@@ -14,9 +14,7 @@ import { clearErrors, createOrder } from '../../actions/orderAction';
 import { removeItemFromCart } from '../../actions/cartAction';
 
 const Payment = () => {
-    console.log('Payment page ');
     const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo")); // getting orderInfo from session storage
-
     const payBtn = useRef(null);
     const navigate = useNavigate();
     const alert = useAlert();
@@ -53,7 +51,7 @@ const Payment = () => {
             }
             // in backend only amount is needed to make payment currency and metadata already defined
             const { data } = await axios.post("/api/v1/payment/process", paymentData, config); // payment API key in app.js in backend
-
+            console.log("data -----",data);
             const client_secret = data.client_secret;
             if (!stripe || !elements) return;
             const result = await stripe.confirmCardPayment(client_secret, {
@@ -103,7 +101,7 @@ const Payment = () => {
         } catch (error) {
             payBtn.current.disabled = false;
             alert.error(error.response.data.message);
-            // alert.error("some error occured");
+            alert.error("some error occured");
         }
 
     }

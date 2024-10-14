@@ -19,12 +19,11 @@ const ProductDetails = ({ match }) => {
     const alert = useAlert();
     const dispatch = useDispatch();
     // const keyword = params.keyword;
-    // const {}
     // fetch data from store
     const { error: reviewError, success } = useSelector((state) => state.newReview); // pulling success and error from newReview store
-    const { user, isAuthenticated } = useSelector((state) => state.user);
+    // const { user, isAuthenticated } = useSelector((state) => state.user); // validation for submit review for a product  
     const { product, loading, error } = useSelector((state) => state.productDetails); // here name of store and state.nameOfParameter should be matched
-    console.log("@@user--",user);
+   
     const options = {
         // size: "large",
         value: product.ratings,
